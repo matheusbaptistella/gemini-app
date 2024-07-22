@@ -15,24 +15,7 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen>  with TickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    _tabController = TabController(
-      initialIndex: 0,
-      length: 2,
-      vsync: this,
-    );
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -132,59 +115,4 @@ class _WelcomeScreenState extends State<WelcomeScreen>  with TickerProviderState
       ),
     );
   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: Padding(
-//         padding: EdgeInsets.symmetric(
-//           vertical: MediaQuery.of(context).size.height / 5,
-//           horizontal: MediaQuery.of(context).size.width / 7,
-//         ),
-//         child: Column(
-//           children: [
-//             TabBar(
-//               controller: _tabController,
-//               indicator: BoxDecoration(
-//                 color: Colors.black,
-//                 borderRadius: BorderRadius.circular(4),
-//               ),
-//               unselectedLabelColor: Colors.black,
-//               labelColor: Colors.white,
-//               tabs: const [
-//                 Text(
-//                   'Sign In',
-//                   style: TextStyle(
-//                     fontSize: 18,
-//                   ),
-//                 ),
-//                 Text(
-//                   'Sign Up',
-//                   style: TextStyle(
-//                     fontSize: 18,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             Expanded(
-//               child: TabBarView(
-//                 controller: _tabController,
-//                 children: [
-//                   BlocProvider<SignInBloc>(
-//                     create: (_) => SignInBloc(),
-//                     child: const WelcomeScreen(),
-//                   ),
-//                   BlocProvider<SignUpBloc>(
-//                     create: (_) => SignUpBloc(),
-//                     child: const SignUpScreen(),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
 }
