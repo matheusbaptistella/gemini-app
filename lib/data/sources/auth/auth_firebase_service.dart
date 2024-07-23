@@ -15,9 +15,9 @@ abstract class AuthFirebaseService {
 
   Future<void> signIn(SignInUserReq req);
 
-  Future<UserEntity> signUp(SignUpUserReq req);
+  Future<UserModel> signUp(SignUpUserReq req);
 
-  Stream<UserEntity> get user;
+  Stream<UserModel> get user;
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
@@ -45,7 +45,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   }
 
   @override
-  Future<UserEntity> signUp(SignUpUserReq req) async {
+  Future<UserModel> signUp(SignUpUserReq req) async {
     try {
       UserCredential data = await _firebaseAuth.createUserWithEmailAndPassword(
         email: req.email,
@@ -57,7 +57,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
         .collection('users')
         .doc(data.user?.uid)
         .set(UserModel.fromEntity(entity).toJson());
-      return UserModel(email: req.email, name: req.name).toEntity();
+      return UserModel(email: req.email, name: req.name);
     } on FirebaseAuthException catch(e) {
       log(e.toString());
       throw SignUpWithEmailAndPasswordException(code: e.code);
@@ -67,17 +67,17 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   }
 
   @override
-  Stream<UserEntity> get user {
+  Stream<UserModel> get user {
     return _firebaseAuth.authStateChanges().flatMap((firebaseUser) async* {
       if (firebaseUser == null) {
-        yield UserModel.empty.toEntity();
+        yield UserModel.empty;
       } else {
         yield await FirebaseFirestore
           .instance
           .collection('users')
           .doc(firebaseUser.uid)
           .get()
-          .then((value) => UserModel.fromJson(value.data()!).toEntity());
+          .then((value) => UserModel.fromJson(value.data()!));
       }
     });
   }

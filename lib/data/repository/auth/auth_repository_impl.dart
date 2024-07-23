@@ -28,9 +28,10 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure,UserEntity>> signUp(SignUpUserReq req) async {
+  Future<Either<Failure, UserEntity>> signUp(SignUpUserReq req) async {
     try{
-      return Right(await sl<AuthFirebaseService>().signUp(req));
+      final user = await sl<AuthFirebaseService>().signUp(req);
+      return Right(user.toEntity());
     } on SignUpWithEmailAndPasswordException catch(e) {
       return Left(SignUpWithEmailAndPasswordFailure.fromCode(e.code));
     } catch(_) {
@@ -39,5 +40,5 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Stream<UserEntity> get user => sl<AuthFirebaseService>().user;
+  Stream<UserEntity> get user => sl<AuthFirebaseService>().user.map((user) => user.toEntity());
 }

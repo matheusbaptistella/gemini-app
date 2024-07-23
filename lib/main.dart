@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           final brightness = MediaQuery.of(context).platformBrightness;
-              context.read<ThemeBloc>().add(ThemeUpdated(brightness));
+          context.read<ThemeBloc>().add(ThemeUpdated(brightness));
 
           return MaterialApp(
             theme: AppTheme.lightTheme,
