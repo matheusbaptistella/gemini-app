@@ -9,7 +9,7 @@ class MyInputForm extends StatelessWidget {
 	final Widget? suffixIcon;
 	// final VoidCallback? onTap;
 	final String? Function(String?)? validator;
-	// final FocusNode? focusNode;
+	final FocusNode? focusNode;
 	final String? errorMsg;
 	final String? Function(String?)? onChanged;
 
@@ -22,7 +22,7 @@ class MyInputForm extends StatelessWidget {
 		this.suffixIcon,
 		// this.onTap,
 		this.validator,
-		// this.focusNode,
+		this.focusNode,
 		this.errorMsg,
 		this.onChanged
   });
@@ -34,7 +34,7 @@ class MyInputForm extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
 			keyboardType: keyboardType,
-			// focusNode: focusNode,
+			focusNode: focusNode,
 			// onTap: onTap,
 			textInputAction: TextInputAction.next,
 			onChanged: onChanged,

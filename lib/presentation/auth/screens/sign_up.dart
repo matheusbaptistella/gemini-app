@@ -29,26 +29,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 70,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 70,
+              ),
+              Text(
                 'Create Account',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Row(
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
                 children: [
                   Text(
                     'Already a member?',
@@ -73,37 +70,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              child: Padding(
+              const SizedBox(
+                height: 10,
+              ),
+              const Padding(
                 padding: EdgeInsets.symmetric(vertical: 5),
                 child: SignUpForm(),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              child: CheckBox('Agree to terms and conditions.'),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              child: CheckBox('I have at least 18 years old.'),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Container(
+              const SizedBox(
+                height: 20,
+              ),
+              const CheckBox('Agree to terms and conditions.'),
+              const SizedBox(
+                height: 20,
+              ),
+              const CheckBox('I have at least 18 years old.'),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
                 alignment: Alignment.center,
                 height: MediaQuery.of(context).size.height * 0.08,
                 width: double.infinity,
@@ -118,31 +103,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fontSize: 18,
                   ),
                 ),
-              ), // Should be a button
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Text(
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
                 'Or sign up with:',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppColors.kBlackColor
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              child: AuthOptions(),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
+              const SizedBox(
+                height: 20,
+              ),
+              const AuthOptions(),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );

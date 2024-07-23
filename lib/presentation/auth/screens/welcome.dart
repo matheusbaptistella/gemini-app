@@ -22,10 +22,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height / 9,
-          horizontal: MediaQuery.of(context).size.width / 12,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +75,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               BlocProvider<SignInBloc>(
                 create: (_) => SignInBloc(),
-                child: const SignInScreen(),
+                child: const SignInForm()//const SignInScreen(),
               ),
               // const SizedBox(
               //   height: 20,
