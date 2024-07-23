@@ -48,7 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: MyInputForm(
                 controller: emailController,
-                hintText: 'Email',
+                labelText: 'Email',
                 obscureText: false,
                 keyboardType: TextInputType.emailAddress,
                 errorMsg: _errorMsg,
@@ -66,7 +66,7 @@ class _SignInScreenState extends State<SignInScreen> {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: MyInputForm(
                 controller: passwordController,
-                hintText: 'Password',
+                labelText: 'Password',
                 obscureText: obscurePassword,
                 keyboardType: TextInputType.visiblePassword,
                 errorMsg: _errorMsg,

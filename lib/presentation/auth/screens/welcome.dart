@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gemini_app/core/configs/theme/app_colors.dart';
 import 'package:gemini_app/presentation/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
@@ -27,8 +28,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 120,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
               ),
               Text(
                 'Welcome Back',
@@ -75,7 +76,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               BlocProvider<SignInBloc>(
                 create: (_) => SignInBloc(),
-                child: const SignInForm()//const SignInScreen(),
+                child: const SignInScreen(),
               ),
               // const SizedBox(
               //   height: 20,

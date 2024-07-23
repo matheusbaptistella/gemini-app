@@ -117,9 +117,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 20,
               ),
               const AuthOptions(),
-              const SizedBox(
-                height: 20,
-              ),
             ],
           ),
         ),

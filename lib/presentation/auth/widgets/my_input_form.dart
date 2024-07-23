@@ -3,7 +3,8 @@ import 'package:gemini_app/core/configs/theme/app_colors.dart';
 
 class MyInputForm extends StatelessWidget {
   final TextEditingController controller;
-  final String hintText;
+  final String? hintText;
+  final String? labelText;
   final bool obscureText;
 	final TextInputType keyboardType;
 	final Widget? suffixIcon;
@@ -16,7 +17,8 @@ class MyInputForm extends StatelessWidget {
 	const MyInputForm({
     super.key,
     required this.controller,
-    required this.hintText,
+    this.hintText,
+    this.labelText,
     required this.obscureText,
 		required this.keyboardType,
 		this.suffixIcon,
@@ -51,6 +53,10 @@ class MyInputForm extends StatelessWidget {
 				// filled: true,
 				hintText: hintText,
 				hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: AppColors.kTextFieldColor,
+        ),
+        labelText: labelText, // Add labelText here
+        labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
           color: AppColors.kTextFieldColor,
         ),
 				errorText: errorMsg,

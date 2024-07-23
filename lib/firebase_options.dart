@@ -25,9 +25,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -67,22 +73,4 @@ class DefaultFirebaseOptions {
     iosBundleId: 'com.example.geminiApp',
   );
 
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBEWu3dVrunHWk2qPbSYEDsaUEVMjnCLMM',
-    appId: '1:415577495058:ios:603737c318631a33ad2acb',
-    messagingSenderId: '415577495058',
-    projectId: 'gemini-app-3b9f7',
-    storageBucket: 'gemini-app-3b9f7.appspot.com',
-    iosBundleId: 'com.example.geminiApp',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDdFj2oFQg9TaWV5V-U9zWNFG3Osu1fFTE',
-    appId: '1:415577495058:web:1103a91ae67d21eead2acb',
-    messagingSenderId: '415577495058',
-    projectId: 'gemini-app-3b9f7',
-    authDomain: 'gemini-app-3b9f7.firebaseapp.com',
-    storageBucket: 'gemini-app-3b9f7.appspot.com',
-    measurementId: 'G-9KZVM9KXL5',
-  );
 }
