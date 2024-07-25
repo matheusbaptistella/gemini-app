@@ -22,92 +22,94 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
-              ),
-              Text(
-                'Welcome Back',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Text(
-                    'New to this app?',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // Switch to sign up screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (_) => SignUpBloc(),
-                            child: const SignUpScreen(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                ),
+                Text(
+                  'Welcome Back',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'New to this app?',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        // Switch to sign up screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BlocProvider(
+                              create: (_) => SignUpBloc(),
+                              child: const SignUpScreen(),
+                            ),
                           ),
+                        );
+                      },
+                      child: Text(
+                        'Sign Up',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontSize: 18,
+                          decoration: TextDecoration.underline,
+                          decorationThickness: 1,
                         ),
-                      );
-                    },
-                    child: Text(
-                      'Sign Up',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontSize: 18,
-                        decoration: TextDecoration.underline,
-                        decorationThickness: 1,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              BlocProvider<SignInBloc>(
-                create: (_) => SignInBloc(),
-                child: const SignInScreen(),
-              ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // TextButton(
-              //   onPressed: () {},
-              //   child: Text(
-              //     'Forgot password?',
-              //     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              //       color: AppColors.kZambeziColor,
-              //       fontSize: 14,
-              //       decoration: TextDecoration.underline,
-              //       decorationThickness: 1,
-              //     ),
-              //   ),
-              // ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Or sign in with:',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kBlackColor,
+                  ],
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              // Button to sign with Google authentication
-              const AuthOptions(),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                BlocProvider<SignInBloc>(
+                  create: (_) => SignInBloc(),
+                  child: const SignInScreen(),
+                ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // TextButton(
+                //   onPressed: () {},
+                //   child: Text(
+                //     'Forgot password?',
+                //     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                //       color: AppColors.kZambeziColor,
+                //       fontSize: 14,
+                //       decoration: TextDecoration.underline,
+                //       decorationThickness: 1,
+                //     ),
+                //   ),
+                // ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Or sign in with:',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.kBlackColor,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                // Button to sign with Google authentication
+                const AuthOptions(),
+              ],
+            ),
           ),
         ),
       ),

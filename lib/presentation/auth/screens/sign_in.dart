@@ -22,6 +22,13 @@ class _SignInScreenState extends State<SignInScreen> {
 	String? _errorMsg;
 
   @override
+  void dispose() {
+    passwordController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<SignInBloc, SignInState>(
       listener: (context, state) {
@@ -46,12 +53,17 @@ class _SignInScreenState extends State<SignInScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
-              child: MyInputForm(
+              child: TextFormField(
                 controller: emailController,
-                labelText: 'Email',
-                obscureText: false,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.kTextFieldColor,
+                  ),
+                  errorText: _errorMsg,
+                ),
                 keyboardType: TextInputType.emailAddress,
-                errorMsg: _errorMsg,
+                obscureText: obscurePassword,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please fill in this field';
@@ -64,12 +76,30 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
-              child: MyInputForm(
+              child: TextFormField(
                 controller: passwordController,
-                labelText: 'Password',
-                obscureText: obscurePassword,
+                decoration: InputDecoration(
+                  errorText: _errorMsg,
+                  labelText: 'Password',
+                  labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.kTextFieldColor,
+                  ),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        obscurePassword = !obscurePassword;
+                        if(obscurePassword) {
+                          iconPassword = Icons.visibility;
+                        } else {
+                          iconPassword = Icons.visibility_off;
+                        }
+                      });
+                    },
+                    icon: Icon(iconPassword),
+                  ),
+                ),
                 keyboardType: TextInputType.visiblePassword,
-                errorMsg: _errorMsg,
+                obscureText: obscurePassword,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please fill in this field';
@@ -78,19 +108,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   }
                   return null;
                 },
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      obscurePassword = !obscurePassword;
-                      if(obscurePassword) {
-                        iconPassword = Icons.visibility;
-                      } else {
-                        iconPassword = Icons.visibility_off;
-                      }
-                    });
-                  },
-                  icon: Icon(iconPassword),
-                ),
               ),
             ),
             const SizedBox(
@@ -101,35 +118,35 @@ class _SignInScreenState extends State<SignInScreen> {
                 color: AppColors.kPrimaryColor,
               )
               : Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.08,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: AppColors.kPrimaryColor
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      context.read<SignInBloc>().add(
-                        SignInRequired(
-                          SignInUserReq(
-                            email: emailController.text,
-                            password: passwordController.text
-                          ),
-                        )
-                      );
-                    }
-                  },
-                  child: Text(
-                    'Sign In',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: AppColors.kWhiteColor,
-                      fontSize: 18,
-                    ),
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * 0.08,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: AppColors.kPrimaryColor
+              ),
+              child: TextButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    context.read<SignInBloc>().add(
+                      SignInRequired(
+                        SignInUserReq(
+                          email: emailController.text,
+                          password: passwordController.text
+                        ),
+                      )
+                    );
+                  }
+                },
+                child: Text(
+                  'Sign In',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: AppColors.kWhiteColor,
+                    fontSize: 18,
                   ),
                 ),
               ),
+            ),
           ]
         ),
       ),

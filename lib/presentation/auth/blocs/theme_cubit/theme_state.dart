@@ -1,4 +1,5 @@
-part of 'theme_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 class ThemeState extends Equatable {
   final ThemeMode themeMode;
@@ -7,8 +8,4 @@ class ThemeState extends Equatable {
 
   @override
   List<Object> get props => [themeMode];
-}
-
-final class ThemeInitial extends ThemeState {
-  const ThemeInitial() : super(themeMode: ThemeMode.system);
 }
