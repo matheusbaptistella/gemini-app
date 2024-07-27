@@ -14,9 +14,7 @@ void main() async {
   //       ? HydratedStorage.webStorageDirectory
   //       : await getApplicationDocumentsDirectory(),
   // );
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initializeDependencies();
   Bloc.observer = SimpleBlocObserver();
 

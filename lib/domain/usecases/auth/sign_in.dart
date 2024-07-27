@@ -7,9 +7,8 @@ import 'package:gemini_app/domain/repository/auth/auth.dart';
 import '../../../service_locator.dart';
 
 class SignInUseCase implements UseCase<Either<Failure, void>, SignInUserReq> {
-
   @override
-  Future<Either<Failure, void>> call({SignInUserReq ? params}) async {
+  Future<Either<Failure, void>> call({SignInUserReq? params}) async {
     return sl<AuthRepository>().signIn(params!);
   }
 }

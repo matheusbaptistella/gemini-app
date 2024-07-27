@@ -5,7 +5,7 @@ import 'package:gemini_app/presentation/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:gemini_app/presentation/auth/cubits/theme_cubit/theme_cubit.dart';
 import 'package:gemini_app/presentation/auth/cubits/theme_cubit/theme_state.dart';
 import 'package:gemini_app/presentation/auth/screens/sign_in.dart';
-import 'package:gemini_app/presentation/home/screens/home_screen.dart';
+import 'package:gemini_app/presentation/home/screens/home.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

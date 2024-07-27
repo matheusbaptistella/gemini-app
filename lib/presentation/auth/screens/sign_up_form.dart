@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gemini_app/core/configs/theme/app_colors.dart';
 import 'package:gemini_app/presentation/auth/cubits/sign_up_cubit/sign_up_cubit.dart';
-import 'package:gemini_app/presentation/auth/widgets/auth_options.dart';
 import 'package:gemini_app/presentation/auth/widgets/checkbox.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -16,6 +15,7 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   bool obscurePassword = true;
   IconData iconPassword = Icons.visibility;
+  bool signUpAttempted = false;
 
   void togglePasswordVisibility() {
     setState(() {
@@ -23,13 +23,20 @@ class _SignUpFormState extends State<SignUpForm> {
       iconPassword = obscurePassword ? Icons.visibility : Icons.visibility_off;
     });
   }
+  
+  void didAttemptToSignUp() {
+    setState((){
+      signUpAttempted = !signUpAttempted;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
-        // TODO: add success case
-        if (state.status.isFailure) {
+        if (state.status.isSuccess) {
+          Navigator.of(context).pop();
+        } else if (signUpAttempted && state.status.isFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -37,6 +44,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 content: Text(state.errorMessage ?? 'Authentication Failure'),
               ),
             );
+          didAttemptToSignUp();
         }
       },
       child: SafeArea(
@@ -46,7 +54,7 @@ class _SignUpFormState extends State<SignUpForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 120),
+                const SizedBox(height: 60),
                 Text(
                   'Create Account',
                   style: Theme.of(context).textTheme.titleMedium,
@@ -90,16 +98,9 @@ class _SignUpFormState extends State<SignUpForm> {
                 const SizedBox(height: 20),
                 const CheckBox('Agree to terms and conditions.'),
                 const SizedBox(height: 20),
-                _SignUpButton(),
-                const SizedBox(height: 20),
-                Text(
-                  'Or sign up with:',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.kBlackColor
-                  ),
+                _SignUpButton(
+                  didAttemptToSignUp: didAttemptToSignUp,
                 ),
-                const SizedBox(height: 20),
-                const AuthOptions(),
               ],
             ),
           ),
@@ -120,10 +121,10 @@ class _SignInButton extends StatelessWidget {
       child: Text(
         'Sign In',
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          fontSize: 18,
-          decoration: TextDecoration.underline,
-          decorationThickness: 1,
-        ),
+              fontSize: 18,
+              decoration: TextDecoration.underline,
+              decorationThickness: 1,
+            ),
       ),
     );
   }
@@ -140,10 +141,12 @@ class _NameInput extends StatelessWidget {
           onChanged: (name) => context.read<SignUpCubit>().nameChanged(name),
           keyboardType: TextInputType.name,
           decoration: InputDecoration(
-            labelText: 'Name',
+            hintText: 'Name',
+            hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppColors.kTextFieldColor,
+                ),
             helperText: '',
-            errorText: 
-              state.name.displayError != null ? 'invalid name' : null,
+            errorText: state.name.displayError != null ? 'Invalid name' : null,
           ),
         );
       },
@@ -162,10 +165,13 @@ class _EmailInput extends StatelessWidget {
           onChanged: (email) => context.read<SignUpCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            labelText: 'Email',
+            hintText: 'Email',
+            hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppColors.kTextFieldColor,
+                ),
             helperText: '',
-            errorText: 
-              state.email.displayError != null ? 'invalid email' : null,
+            errorText:
+                state.email.displayError != null ? 'Invalid email' : null,
           ),
         );
       },
@@ -195,10 +201,13 @@ class _PasswordInput extends StatelessWidget {
               context.read<SignUpCubit>().passwordChanged(password),
           obscureText: obscurePassword,
           decoration: InputDecoration(
-            labelText: 'Password',
+            hintText: 'Password',
+            hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppColors.kTextFieldColor,
+                ),
             helperText: '',
             errorText:
-                state.password.displayError != null ? 'invalid password' : null,
+                state.password.displayError != null ? 'Invalid password' : null,
             suffixIcon: IconButton(
               icon: Icon(iconPassword),
               onPressed: togglePasswordVisibility,
@@ -225,21 +234,24 @@ class _ConfirmPasswordInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       buildWhen: (previous, current) =>
-        previous.password != current.password ||
-        previous.confirmedPassword != current.confirmedPassword,
+          previous.password != current.password ||
+          previous.confirmedPassword != current.confirmedPassword,
       builder: (context, state) {
         return TextField(
           key: const Key('signUpForm_confirmedPasswordInput_textField'),
           onChanged: (confirmPassword) => context
               .read<SignUpCubit>()
               .confirmedPasswordChanged(confirmPassword),
-          obscureText: true,
+          obscureText: obscurePassword,
           decoration: InputDecoration(
-            labelText: 'Confirm password',
+            hintText: 'Confirm password',
+            hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppColors.kTextFieldColor,
+                ),
             helperText: '',
             errorText: state.confirmedPassword.displayError != null
-              ? 'passwords do not match'
-              : null,
+                ? 'Passwords do not match'
+                : null,
             suffixIcon: IconButton(
               icon: Icon(iconPassword),
               onPressed: togglePasswordVisibility,
@@ -252,35 +264,48 @@ class _ConfirmPasswordInput extends StatelessWidget {
 }
 
 class _SignUpButton extends StatelessWidget {
+  final VoidCallback didAttemptToSignUp;
+
+  const _SignUpButton({
+    required this.didAttemptToSignUp,
+  });
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
-        return state.status.isInProgress
+        return Center(
+          child: state.status.isInProgress
           ? const CircularProgressIndicator(
-            color: AppColors.kPrimaryColor,
-          )
-          : Container(
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * 0.08,
-              width: double.infinity,
-              decoration: BoxDecoration(
+              color: AppColors.kPrimaryColor,
+            )
+          : TextButton(
+            key: const Key('signUpForm_signUp_textButton'),
+            style: TextButton.styleFrom(
+              backgroundColor: AppColors.kPrimaryColor,
+              padding: EdgeInsets.symmetric(
+                vertical: MediaQuery.of(context).size.height * 0.02,
+                horizontal: MediaQuery.of(context).size.width * 0.35,
+              ),
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                color: AppColors.kPrimaryColor
               ),
-              child: TextButton(
-                onPressed: state.isValid
-                  ? () => context.read<SignUpCubit>().signUpWithCredentials()
-                  : null,
-                child: Text(
-                  'Sign In',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.kWhiteColor,
-                    fontSize: 18,
-                  ),
-                ),
+            ),
+            onPressed: state.isValid
+              ? () {
+                  context.read<SignUpCubit>().signUpWithEmailAndPassword();
+                  didAttemptToSignUp();
+                }
+              : null,
+            child: Text(
+              'Sign Up',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: AppColors.kWhiteColor,
+                fontSize: 18,
               ),
-            );
+            ),
+          ),
+        );
       },
     );
   }

@@ -6,7 +6,8 @@ class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit() : super(const ThemeState(themeMode: ThemeMode.system));
 
   void updateTheme(Brightness brightness) {
-    final themeMode = brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light;
+    final themeMode =
+        brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light;
     emit(ThemeState(themeMode: themeMode));
   }
 }

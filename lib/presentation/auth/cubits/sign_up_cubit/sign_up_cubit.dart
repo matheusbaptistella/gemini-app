@@ -20,12 +20,10 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   void nameChanged(String value) {
     final name = Name.dirty(value);
-    emit(
-      state.copyWith(
+    emit(state.copyWith(
         name: name,
-        isValid: Formz.validate([name, state.email, state.password, state.confirmedPassword])
-      )
-    );
+        isValid: Formz.validate(
+            [name, state.email, state.password, state.confirmedPassword])));
   }
 
   void emailChanged(String value) {
@@ -33,7 +31,8 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(
       state.copyWith(
         email: email,
-        isValid: Formz.validate([state.name, email, state.password, state.confirmedPassword]),
+        isValid: Formz.validate(
+            [state.name, email, state.password, state.confirmedPassword]),
       ),
     );
   }
@@ -43,7 +42,8 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(
       state.copyWith(
         password: password,
-        isValid: Formz.validate([state.name, state.email, password, state.confirmedPassword]),
+        isValid: Formz.validate(
+            [state.name, state.email, password, state.confirmedPassword]),
       ),
     );
   }
@@ -66,18 +66,18 @@ class SignUpCubit extends Cubit<SignUpState> {
     );
   }
 
-  Future<void> signUpWithCredentials() async {
+  Future<void> signUpWithEmailAndPassword() async {
     if (!state.isValid) return;
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    final Either<Failure, UserEntity> result = await sl<AuthRepository>().signUp(
-      SignUpUserReq(
-        name: state.name.value,
-        email:  state.email.value,
-        password: state.password.value
-      )
-    );
+    final Either<Failure, UserEntity> result = await sl<AuthRepository>()
+        .signUp(SignUpUserReq(
+            name: state.name.value,
+            email: state.email.value,
+            password: state.password.value));
     result.fold(
-      (failure) => emit(state.copyWith(status: FormzSubmissionStatus.failure)),
+      (failure) => emit(state.copyWith(
+          status: FormzSubmissionStatus.failure,
+          errorMessage: failure.message)),
       (_) => emit(state.copyWith(status: FormzSubmissionStatus.success)),
     );
   }

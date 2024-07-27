@@ -2,47 +2,44 @@ part of 'sign_up_cubit.dart';
 
 class SignUpState extends Equatable {
   SignUpState({
-    this.name = const Name.pure(),
-    this.confirmedPassword = const ConfirmedPassword.pure(),
     Email? email,
     Password? password,
-    FormzSubmissionStatus? status,
-    bool? isValid,
+    this.isValid = false,
+    this.status = FormzSubmissionStatus.initial,
+    this.name = const Name.pure(),
+    this.confirmedPassword = const ConfirmedPassword.pure(),
     this.errorMessage,
   })  : email = email ?? Email.pure(),
-        password = password ?? Password.pure(),
-        status = status ?? FormzSubmissionStatus.initial,
-        isValid = isValid ?? false;
+        password = password ?? Password.pure();
 
+  final bool isValid;
+  final FormzSubmissionStatus status;
   final Name name;
-  final ConfirmedPassword confirmedPassword;
   final Email email;
   final Password password;
-  final FormzSubmissionStatus status;
-  final bool isValid;
+  final ConfirmedPassword confirmedPassword;
   final String? errorMessage;
 
   @override
-  List<Object?> get props => [
-    name, confirmedPassword, password, status, isValid, errorMessage
-  ];
+  List<Object?> get props =>
+      [isValid, status, name, email, password, confirmedPassword, errorMessage];
 
   SignUpState copyWith({
+    bool? isValid,
+    FormzSubmissionStatus? status,
     Name? name,
-    ConfirmedPassword? confirmedPassword,
     Email? email,
     Password? password,
-    FormzSubmissionStatus? status,
-    bool? isValid,
+    ConfirmedPassword? confirmedPassword,
     String? errorMessage,
   }) {
     return SignUpState(
+      isValid: isValid ?? this.isValid,
+      status: status ?? this.status,
       name: name ?? this.name,
-      confirmedPassword: confirmedPassword ?? this.confirmedPassword,
       email: email ?? this.email,
       password: password ?? this.password,
-      status: status ?? this.status,
-      isValid: isValid ?? this.isValid,
+      confirmedPassword: confirmedPassword ?? this.confirmedPassword,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }

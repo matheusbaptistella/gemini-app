@@ -36,15 +36,9 @@ class AppTheme {
       onPrimary: AppColors.kPrimaryColor,
     ),
     textTheme: TextTheme(
-      titleMedium: GoogleFonts.urbanist(
-
-      ),
-      bodyMedium: GoogleFonts.urbanist(
-
-      ),
-      labelMedium: GoogleFonts.urbanist(
-
-      ),
+      titleMedium: GoogleFonts.urbanist(),
+      bodyMedium: GoogleFonts.urbanist(),
+      labelMedium: GoogleFonts.urbanist(),
     ),
   );
 }

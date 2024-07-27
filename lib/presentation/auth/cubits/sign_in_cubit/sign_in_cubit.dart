@@ -35,17 +35,29 @@ class SignInCubit extends Cubit<SignInState> {
     );
   }
 
-  Future<void> signInWithCredentials() async {
+  Future<void> signInWithEmailAndPassword() async {
     if (!state.isValid) return;
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     final Either<Failure, void> result = await sl<AuthRepository>().signIn(
-      SignInUserReq(email: state.email.value, password: state.password.value));
+        SignInUserReq(
+            email: state.email.value, password: state.password.value));
     result.fold(
-      (failure) => emit(state.copyWith(status: FormzSubmissionStatus.failure)),
+      (failure) => emit(state.copyWith(
+          status: FormzSubmissionStatus.failure,
+          errorMessage: failure.message)),
       (_) => emit(state.copyWith(status: FormzSubmissionStatus.success)),
     );
   }
 
-  // TODO: Sign in with google
+  Future<void> signInWithGoogle() async {
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    final Either<Failure, void> result = await sl<AuthRepository>().signInWithGoogle();
+    result.fold(
+      (failure) => emit(state.copyWith(
+        status: FormzSubmissionStatus.failure,
+        errorMessage: failure.message,
+      )),
+      (_) => emit(state.copyWith(status: FormzSubmissionStatus.success)),
+    );
+  }
 }
-

@@ -8,20 +8,11 @@ import 'package:get_it/get_it.dart';
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
+  sl.registerSingleton<AuthFirebaseService>(AuthFirebaseServiceImpl());
 
-  sl.registerSingleton<AuthFirebaseService>(
-    AuthFirebaseServiceImpl()
-  );
+  sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
 
-  sl.registerSingleton<AuthRepository>(
-    AuthRepositoryImpl()
-  );
+  sl.registerSingleton<SignUpUseCase>(SignUpUseCase());
 
-  sl.registerSingleton<SignUpUseCase>(
-    SignUpUseCase()
-  );
-
-  sl.registerSingleton<SignInUseCase>(
-    SignInUseCase()
-  );
+  sl.registerSingleton<SignInUseCase>(SignInUseCase());
 }
