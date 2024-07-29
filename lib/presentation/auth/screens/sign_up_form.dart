@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gemini_app/core/configs/theme/app_colors.dart';
-import 'package:gemini_app/presentation/auth/cubits/sign_up_cubit/sign_up_cubit.dart';
+import 'package:gemini_app/presentation/auth/cubits/sign_up/sign_up_cubit.dart';
 import 'package:gemini_app/presentation/auth/widgets/checkbox.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -23,9 +23,9 @@ class _SignUpFormState extends State<SignUpForm> {
       iconPassword = obscurePassword ? Icons.visibility : Icons.visibility_off;
     });
   }
-  
+
   void didAttemptToSignUp() {
-    setState((){
+    setState(() {
       signUpAttempted = !signUpAttempted;
     });
   }
@@ -48,60 +48,64 @@ class _SignUpFormState extends State<SignUpForm> {
         }
       },
       child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 60),
-                Text(
-                  'Create Account',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 5),
-                Row(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 600),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 60),
                     Text(
-                      'Already a member?',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      'Create Account',
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    const SizedBox(width: 5),
-                    _SignInButton(),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Text(
+                          'Already a member?',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        const SizedBox(width: 5),
+                        _SignInButton(),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: _NameInput(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: _EmailInput(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: _PasswordInput(
+                        obscurePassword: obscurePassword,
+                        iconPassword: iconPassword,
+                        togglePasswordVisibility: togglePasswordVisibility,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: _ConfirmPasswordInput(
+                        obscurePassword: obscurePassword,
+                        iconPassword: iconPassword,
+                        togglePasswordVisibility: togglePasswordVisibility,
+                      ),
+                    ),
+                    const CheckBox('Agree to terms and conditions.'),
+                    const SizedBox(height: 40),
+                    _SignUpButton(
+                      didAttemptToSignUp: didAttemptToSignUp,
+                    ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: _NameInput(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: _EmailInput(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: _PasswordInput(
-                    obscurePassword: obscurePassword,
-                    iconPassword: iconPassword,
-                    togglePasswordVisibility: togglePasswordVisibility,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: _ConfirmPasswordInput(
-                    obscurePassword: obscurePassword,
-                    iconPassword: iconPassword,
-                    togglePasswordVisibility: togglePasswordVisibility,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const CheckBox('Agree to terms and conditions.'),
-                const SizedBox(height: 20),
-                _SignUpButton(
-                  didAttemptToSignUp: didAttemptToSignUp,
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -276,35 +280,41 @@ class _SignUpButton extends StatelessWidget {
       builder: (context, state) {
         return Center(
           child: state.status.isInProgress
-          ? const CircularProgressIndicator(
-              color: AppColors.kPrimaryColor,
-            )
-          : TextButton(
-            key: const Key('signUpForm_signUp_textButton'),
-            style: TextButton.styleFrom(
-              backgroundColor: AppColors.kPrimaryColor,
-              padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.02,
-                horizontal: MediaQuery.of(context).size.width * 0.35,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-            onPressed: state.isValid
-              ? () {
-                  context.read<SignUpCubit>().signUpWithEmailAndPassword();
-                  didAttemptToSignUp();
-                }
-              : null,
-            child: Text(
-              'Sign Up',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.kWhiteColor,
-                fontSize: 18,
-              ),
-            ),
-          ),
+              ? const CircularProgressIndicator(
+                  color: AppColors.kPrimaryColor,
+                )
+              : SizedBox(
+                  height: 50,
+                  width: 400,
+                  child: TextButton(
+                    key: const Key('signUpForm_signUp_textButton'),
+                    style: TextButton.styleFrom(
+                      backgroundColor: AppColors.kPrimaryColor,
+                      // padding: EdgeInsets.symmetric(
+                      //   vertical: 10,
+                      //   horizontal: 20,
+                      // ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    onPressed: state.isValid
+                        ? () {
+                            context
+                                .read<SignUpCubit>()
+                                .signUpWithEmailAndPassword();
+                            didAttemptToSignUp();
+                          }
+                        : null,
+                    child: Text(
+                      'Sign Up',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: AppColors.kWhiteColor,
+                            fontSize: 18,
+                          ),
+                    ),
+                  ),
+                ),
         );
       },
     );

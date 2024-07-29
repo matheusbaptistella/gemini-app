@@ -11,3 +11,7 @@ class SignUpWithEmailAndPasswordException extends FirebaseAuthException {
 class SignInWithGoogleException extends FirebaseAuthException {
   SignInWithGoogleException({required super.code});
 }
+
+class ResetPasswordWithEmailException extends FirebaseAuthException {
+  ResetPasswordWithEmailException({required super.code});
+}

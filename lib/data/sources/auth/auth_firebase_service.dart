@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gemini_app/core/error_handling/exceptions.dart';
+import 'package:gemini_app/data/models/auth/reset_password_req.dart';
 import 'package:gemini_app/data/models/auth/sign_up_user_req.dart';
 import 'package:gemini_app/data/models/auth/sign_in_user_req.dart';
 import 'package:gemini_app/data/models/auth/user.dart';
@@ -18,6 +20,8 @@ abstract class AuthFirebaseService {
   Future<void> signInWithGoogle();
 
   Future<UserModel> signUp(SignUpUserReq req);
+
+  Future<void> resetPasswordWithEmail(ResetPasswordWithEmailReq req);
 
   Stream<UserModel> get user;
 }
@@ -40,7 +44,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: req.email, password: req.password);
     } on FirebaseAuthException catch (e) {
-      log("${e.toString()}, ${e.code}");
+      log(e.toString());
       throw SignInWithEmailAndPasswordException(code: e.code);
     } catch (_) {
       rethrow;
@@ -50,19 +54,26 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   @override
   Future<void> signInWithGoogle() async {
     try {
-      // TODO: for the web, see google_sing_in_web plugin
-      final googleUser = await GoogleSignIn().signIn();
-      final googleAuth = await googleUser!.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+      late final AuthCredential credential;
+      if (kIsWeb) {
+        final googleProvider = GoogleAuthProvider();
+        final userCredential = await _firebaseAuth.signInWithPopup(
+          googleProvider,
+        );
+        credential = userCredential.credential!;
+      } else {
+        final googleUser = await GoogleSignIn().signIn();
+        final googleAuth = await googleUser!.authentication;
+        credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+      }
       await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      log("${e.toString()}, ${e.code}");
+      log(e.toString());
       throw SignInWithGoogleException(code: e.code);
     } catch (e) {
-      log("${e.toString()}");
       rethrow;
     }
   }
@@ -79,8 +90,20 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
           .set(UserModel.fromEntity(entity).toJson());
       return UserModel(email: req.email, name: req.name);
     } on FirebaseAuthException catch (e) {
-      log("${e.toString()}, ${e.code}");
+      log(e.toString());
       throw SignUpWithEmailAndPasswordException(code: e.code);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> resetPasswordWithEmail(ResetPasswordWithEmailReq req) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: req.email);
+    } on FirebaseAuthException catch (e) {
+      log(e.toString());
+      throw ResetPasswordWithEmailException(code: e.code);
     } catch (_) {
       rethrow;
     }

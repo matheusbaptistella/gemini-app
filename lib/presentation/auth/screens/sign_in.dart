@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gemini_app/presentation/auth/cubits/sign_in_cubit/sign_in_cubit.dart';
+import 'package:gemini_app/presentation/auth/cubits/sign_in/sign_in_cubit.dart';
 import 'package:gemini_app/presentation/auth/screens/sign_in_form.dart';
 
 class SignInScreen extends StatefulWidget {

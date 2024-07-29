@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:gemini_app/core/error_handling/exceptions.dart';
 import 'package:gemini_app/core/error_handling/failures.dart';
+import 'package:gemini_app/data/models/auth/reset_password_req.dart';
 import 'package:gemini_app/data/models/auth/sign_up_user_req.dart';
 import 'package:gemini_app/data/models/auth/sign_in_user_req.dart';
 import 'package:gemini_app/data/sources/auth/auth_firebase_service.dart';
@@ -26,6 +27,7 @@ class AuthRepositoryImpl extends AuthRepository {
     }
   }
 
+  @override
   Future<Either<Failure, void>> signInWithGoogle() async {
     try {
       return Right(await sl<AuthFirebaseService>().signInWithGoogle());
@@ -33,6 +35,18 @@ class AuthRepositoryImpl extends AuthRepository {
       throw Left(SignInWithGoogleFailure.fromCode(e.code));
     } catch (_) {
       return const Left(SignInWithGoogleFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> resetPasswordWithEmail(
+      ResetPasswordWithEmailReq req) async {
+    try {
+      return Right(await sl<AuthFirebaseService>().resetPasswordWithEmail(req));
+    } on ResetPasswordWithEmailException catch (e) {
+      return Left(ResetPasswordWithEmailFailure.fromCode(e.code));
+    } catch (_) {
+      return const Left(ResetPasswordWithEmailFailure());
     }
   }
 

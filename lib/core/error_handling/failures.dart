@@ -94,7 +94,8 @@ class SignInWithGoogleFailure extends Failure {
         );
       case 'user-disabled':
         return const SignInWithGoogleFailure(
-          message: 'This user has been disabled. Please contact support for help.',
+          message:
+              'This user has been disabled. Please contact support for help.',
         );
       case 'user-not-found':
         return const SignInWithGoogleFailure(
@@ -114,6 +115,31 @@ class SignInWithGoogleFailure extends Failure {
         );
       default:
         return const SignInWithGoogleFailure();
+    }
+  }
+}
+
+class ResetPasswordWithEmailFailure extends Failure {
+  const ResetPasswordWithEmailFailure(
+      {super.message =
+          'An unknown exception occurred when resetting the password.'});
+
+  factory ResetPasswordWithEmailFailure.fromCode(String code) {
+    switch (code) {
+      case 'invalid-credential':
+        return const ResetPasswordWithEmailFailure(
+          message: 'Account not found or credentials malformed.',
+        );
+      case 'invalid-email':
+        return const ResetPasswordWithEmailFailure(
+          message: 'Email is not valid or badly formatted.',
+        );
+      case 'user-not-found':
+        return const ResetPasswordWithEmailFailure(
+          message: 'Email is not found, please create an account.',
+        );
+      default:
+        return const ResetPasswordWithEmailFailure();
     }
   }
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gemini_app/core/configs/theme/app_theme.dart';
 import 'package:gemini_app/presentation/auth/blocs/auth_bloc/auth_bloc.dart';
-import 'package:gemini_app/presentation/auth/cubits/theme_cubit/theme_cubit.dart';
-import 'package:gemini_app/presentation/auth/cubits/theme_cubit/theme_state.dart';
+import 'package:gemini_app/presentation/auth/cubits/theme/theme_cubit.dart';
+import 'package:gemini_app/presentation/auth/cubits/theme/theme_state.dart';
 import 'package:gemini_app/presentation/auth/screens/sign_in.dart';
 import 'package:gemini_app/presentation/home/screens/home.dart';
 
