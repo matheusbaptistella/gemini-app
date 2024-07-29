@@ -7,6 +7,10 @@ sealed class AuthEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class AuthUserSignOut extends AuthEvent {
+  const AuthUserSignOut();
+}
+
 class AuthUserUpdated extends AuthEvent {
   final UserEntity? user;
 

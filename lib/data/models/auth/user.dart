@@ -34,7 +34,7 @@ class UserModel {
   }
 
   // Factory constructor for creating a new instance from JSON
-  factory UserModel.fromJson(Map<String, dynamic> json) { 
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     return _$UserModelFromJson(json);
   }
 

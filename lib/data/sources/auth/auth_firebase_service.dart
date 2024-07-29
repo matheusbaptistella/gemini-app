@@ -2,22 +2,28 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gemini_app/core/error_handling/exceptions.dart';
+import 'package:gemini_app/data/models/auth/reset_password_req.dart';
 import 'package:gemini_app/data/models/auth/sign_up_user_req.dart';
 import 'package:gemini_app/data/models/auth/sign_in_user_req.dart';
 import 'package:gemini_app/data/models/auth/user.dart';
 import 'package:gemini_app/domain/entities/auth/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/transformers.dart';
 
 abstract class AuthFirebaseService {
-
   Future<void> logOut();
 
   Future<void> signIn(SignInUserReq req);
 
-  Future<UserEntity> signUp(SignUpUserReq req);
+  Future<void> signInWithGoogle();
 
-  Stream<UserEntity> get user;
+  Future<UserModel> signUp(SignUpUserReq req);
+
+  Future<void> resetPasswordWithEmail(ResetPasswordWithEmailReq req);
+
+  Stream<UserModel> get user;
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
@@ -35,49 +41,85 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   @override
   Future<void> signIn(SignInUserReq req) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(email: req.email, password: req.password);
-    } on FirebaseAuthException catch(e) {
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: req.email, password: req.password);
+    } on FirebaseAuthException catch (e) {
       log(e.toString());
       throw SignInWithEmailAndPasswordException(code: e.code);
-    } catch(_) {
+    } catch (_) {
       rethrow;
     }
   }
 
   @override
-  Future<UserEntity> signUp(SignUpUserReq req) async {
+  Future<void> signInWithGoogle() async {
+    try {
+      late final AuthCredential credential;
+      if (kIsWeb) {
+        final googleProvider = GoogleAuthProvider();
+        final userCredential = await _firebaseAuth.signInWithPopup(
+          googleProvider,
+        );
+        credential = userCredential.credential!;
+      } else {
+        final googleUser = await GoogleSignIn().signIn();
+        final googleAuth = await googleUser!.authentication;
+        credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+      }
+      await _firebaseAuth.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      log(e.toString());
+      throw SignInWithGoogleException(code: e.code);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserModel> signUp(SignUpUserReq req) async {
     try {
       UserCredential data = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: req.email,
-        password: req.password
-      );
+          email: req.email, password: req.password);
       UserEntity entity = UserEntity(email: req.email, name: req.name);
-      await FirebaseFirestore
-        .instance
-        .collection('users')
-        .doc(data.user?.uid)
-        .set(UserModel.fromEntity(entity).toJson());
-      return UserModel(email: req.email, name: req.name).toEntity();
-    } on FirebaseAuthException catch(e) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(data.user?.uid)
+          .set(UserModel.fromEntity(entity).toJson());
+      return UserModel(email: req.email, name: req.name);
+    } on FirebaseAuthException catch (e) {
       log(e.toString());
       throw SignUpWithEmailAndPasswordException(code: e.code);
-    } catch(_) {
+    } catch (_) {
       rethrow;
     }
   }
 
   @override
-  Stream<UserEntity> get user {
+  Future<void> resetPasswordWithEmail(ResetPasswordWithEmailReq req) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: req.email);
+    } on FirebaseAuthException catch (e) {
+      log(e.toString());
+      throw ResetPasswordWithEmailException(code: e.code);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  @override
+  Stream<UserModel> get user {
     return _firebaseAuth.authStateChanges().flatMap((firebaseUser) async* {
       if (firebaseUser == null) {
-        yield UserModel.empty.toEntity();
+        yield UserModel.empty;
       } else {
-        yield await FirebaseFirestore
-          .instance
-          .collection('users')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((value) => UserModel.fromJson(value.data()!).toEntity());
+        yield await FirebaseFirestore.instance
+            .collection('users')
+            .doc(firebaseUser.uid)
+            .get()
+            .then((value) => UserModel.fromJson(value.data()!));
       }
     });
   }

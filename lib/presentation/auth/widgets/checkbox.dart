@@ -18,25 +18,28 @@ class _CheckBoxState extends State<CheckBox> {
       children: [
         Row(
           children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isSelected = !_isSelected;
-                });
-              },
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: AppColors.kDarkGreyColor)),
-                child: _isSelected
-                    ? const Icon(
-                        Icons.check,
-                        size: 17,
-                        color: Colors.green,
-                      )
-                    : null,
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isSelected = !_isSelected;
+                  });
+                },
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: AppColors.kDarkGreyColor)),
+                  child: _isSelected
+                      ? const Icon(
+                          Icons.check,
+                          size: 17,
+                          color: Colors.green,
+                        )
+                      : null,
+                ),
               ),
             ),
             const SizedBox(

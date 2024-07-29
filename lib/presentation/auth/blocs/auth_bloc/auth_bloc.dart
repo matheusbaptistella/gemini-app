@@ -13,18 +13,22 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   late final StreamSubscription<UserEntity> _userSubscription;
-  
+
   AuthBloc() : super(const AuthState.unknown()) {
     _userSubscription = sl<AuthRepository>().user.listen(
-      (user) => add(AuthUserUpdated(user)),
-    );
+          (user) => add(AuthUserUpdated(user)),
+        );
 
     on<AuthUserUpdated>((event, emit) {
-      if(event.user != UserModel.empty.toEntity()) {
+      if (event.user != UserModel.empty.toEntity()) {
         emit(AuthState.authenticated(event.user!));
       } else {
         emit(const AuthState.unauthenticated());
       }
+    });
+
+    on<AuthUserSignOut>((event, emit) {
+      sl<AuthRepository>().logOut();
     });
   }
 
