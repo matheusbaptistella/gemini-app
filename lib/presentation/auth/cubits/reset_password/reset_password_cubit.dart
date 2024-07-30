@@ -5,6 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:gemini_app/core/error_handling/failures.dart';
 import 'package:gemini_app/data/models/auth/reset_password_req.dart';
 import 'package:gemini_app/domain/repository/auth/auth.dart';
+import 'package:gemini_app/domain/usecases/auth/reset_password.dart';
 import 'package:gemini_app/presentation/auth/widgets/forms/email.dart';
 
 import '../../../../service_locator.dart';
@@ -27,9 +28,12 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   Future<void> resetPasswordWIthEmail() async {
     if (!state.isValid) return;
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    final Either<Failure, void> result = await sl<AuthRepository>()
-        .resetPasswordWithEmail(
-            ResetPasswordWithEmailReq(email: state.email.value));
+    // final Either<Failure, void> result = await sl<AuthRepository>()
+    //     .resetPasswordWithEmail(
+    //         ResetPasswordWithEmailReq(email: state.email.value));
+    final Either<Failure, void> result = await sl<ResetPasswordWithEmailUseCase>().call(
+      params: ResetPasswordWithEmailReq(email: state.email.value),
+    );
     result.fold(
       (failure) => emit(state.copyWith(
           status: FormzSubmissionStatus.failure,

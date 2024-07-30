@@ -35,7 +35,7 @@ class _SignInFormState extends State<SignInForm> {
   Widget build(BuildContext context) {
     return BlocListener<SignInCubit, SignInState>(
       listener: (context, state) {
-        if (state.status.isFailure) {
+        if (signInAttempted && state.status.isFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -93,7 +93,9 @@ class _SignInFormState extends State<SignInForm> {
                           ),
                     ),
                     const SizedBox(height: 20),
-                    _SignInWithGoogleButton(),
+                    _SignInWithGoogleButton(
+                      didAttemptToSignIn: didAttemptToSignIn,
+                    ),
                   ],
                 ),
               ),
@@ -273,6 +275,12 @@ class _ForgotPasswordButton extends StatelessWidget {
 }
 
 class _SignInWithGoogleButton extends StatelessWidget {
+  final VoidCallback didAttemptToSignIn;
+
+  const _SignInWithGoogleButton({
+    required this.didAttemptToSignIn,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -296,12 +304,13 @@ class _SignInWithGoogleButton extends StatelessWidget {
             ),
             onPressed: () {
               context.read<SignInCubit>().signInWithGoogle();
+              didAttemptToSignIn();
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Image(
-                  image: AssetImage('assets/google.png'),
+                  image: AssetImage('assets/images/google.png'),
                   height: 30,
                   width: 30,
                 ),

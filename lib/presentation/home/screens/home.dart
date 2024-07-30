@@ -17,16 +17,70 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text('Home'),
         actions: [
           IconButton(
             key: const Key('homePage_logout_iconButton'),
-            icon: const Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.menu),
             onPressed: () {
-              context.read<AuthBloc>().add(const AuthUserSignOut());
+              Scaffold.of(context).openDrawer();
             },
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    // ignore: unnecessary_null_comparison
+                    backgroundImage: user!.profilePictureUrl.isNotEmpty
+                        ? NetworkImage(user.profilePictureUrl)
+                        : const AssetImage('assets/default-profile-picture.png') as ImageProvider,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    user.name,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    user.email,
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('View Profile'),
+              onTap: () {
+                Navigator.pop(context);
+                // Navigate to profile page
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Sign Out'),
+              onTap: () {
+                context.read<AuthBloc>().add(const AuthUserSignOut());
+              },
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         child: Padding(

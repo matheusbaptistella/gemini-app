@@ -7,8 +7,7 @@ import 'package:gemini_app/core/error_handling/exceptions.dart';
 import 'package:gemini_app/data/models/auth/reset_password_req.dart';
 import 'package:gemini_app/data/models/auth/sign_up_user_req.dart';
 import 'package:gemini_app/data/models/auth/sign_in_user_req.dart';
-import 'package:gemini_app/data/models/auth/user.dart';
-import 'package:gemini_app/domain/entities/auth/user.dart';
+import 'package:gemini_app/data/models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/transformers.dart';
 
@@ -83,12 +82,12 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
     try {
       UserCredential data = await _firebaseAuth.createUserWithEmailAndPassword(
           email: req.email, password: req.password);
-      UserEntity entity = UserEntity(email: req.email, name: req.name);
+      UserModel model = UserModel(email: req.email, name: req.name, profilePictureUrl: '');
       await FirebaseFirestore.instance
           .collection('users')
           .doc(data.user?.uid)
-          .set(UserModel.fromEntity(entity).toJson());
-      return UserModel(email: req.email, name: req.name);
+          .set(model.toJson());
+      return model;
     } on FirebaseAuthException catch (e) {
       log(e.toString());
       throw SignUpWithEmailAndPasswordException(code: e.code);
