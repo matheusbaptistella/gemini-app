@@ -1,4 +1,4 @@
-import 'package:gemini_app/domain/entities/auth/user.dart';
+import 'package:gemini_app/domain/entities/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -7,22 +7,26 @@ part 'user.g.dart';
 class UserModel {
   String email;
   String name;
+  String profilePictureUrl;
 
   UserModel({
     required this.email,
     required this.name,
+    required this.profilePictureUrl
   });
 
   // Default empty user to avoid null cases
   static final empty = UserModel(
     email: '',
     name: '',
+    profilePictureUrl: '',
   );
 
   UserEntity toEntity() {
     return UserEntity(
       email: email,
       name: name,
+      profilePictureUrl: profilePictureUrl,
     );
   }
 
@@ -30,6 +34,7 @@ class UserModel {
     return UserModel(
       email: entity.email,
       name: entity.name,
+      profilePictureUrl: entity.profilePictureUrl,
     );
   }
 

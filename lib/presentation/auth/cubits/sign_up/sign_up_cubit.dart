@@ -4,8 +4,9 @@ import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:gemini_app/core/error_handling/failures.dart';
 import 'package:gemini_app/data/models/auth/sign_up_user_req.dart';
-import 'package:gemini_app/domain/entities/auth/user.dart';
+import 'package:gemini_app/domain/entities/user.dart';
 import 'package:gemini_app/domain/repository/auth/auth.dart';
+import 'package:gemini_app/domain/usecases/auth/sign_up.dart';
 import 'package:gemini_app/presentation/auth/widgets/forms/confirmed_password.dart';
 import 'package:gemini_app/presentation/auth/widgets/forms/email.dart';
 import 'package:gemini_app/presentation/auth/widgets/forms/name.dart';
@@ -69,11 +70,18 @@ class SignUpCubit extends Cubit<SignUpState> {
   Future<void> signUpWithEmailAndPassword() async {
     if (!state.isValid) return;
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    final Either<Failure, UserEntity> result = await sl<AuthRepository>()
-        .signUp(SignUpUserReq(
-            name: state.name.value,
-            email: state.email.value,
-            password: state.password.value));
+    // final Either<Failure, UserEntity> result = await sl<AuthRepository>()
+    //     .signUp(SignUpUserReq(
+    //         name: state.name.value,
+    //         email: state.email.value,
+    //         password: state.password.value));
+    final Either<Failure, UserEntity> result = await sl<SignUpUseCase>().call(
+      params: SignUpUserReq(
+        name: state.name.value,
+        email: state.email.value,
+        password: state.password.value
+      )
+    );
     result.fold(
       (failure) => emit(state.copyWith(
           status: FormzSubmissionStatus.failure,
@@ -81,6 +89,4 @@ class SignUpCubit extends Cubit<SignUpState> {
       (_) => emit(state.copyWith(status: FormzSubmissionStatus.success)),
     );
   }
-
-  // TODO: Sign up with google
 }

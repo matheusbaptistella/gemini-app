@@ -5,7 +5,7 @@ import 'package:gemini_app/data/models/auth/reset_password_req.dart';
 import 'package:gemini_app/data/models/auth/sign_up_user_req.dart';
 import 'package:gemini_app/data/models/auth/sign_in_user_req.dart';
 import 'package:gemini_app/data/sources/auth/auth_firebase_service.dart';
-import 'package:gemini_app/domain/entities/auth/user.dart';
+import 'package:gemini_app/domain/entities/user.dart';
 import 'package:gemini_app/domain/repository/auth/auth.dart';
 
 import '../../../service_locator.dart';

@@ -4,10 +4,12 @@ class UserEntity extends Equatable {
   const UserEntity({
     required this.email,
     required this.name,
+    required this.profilePictureUrl,
   });
 
   final String email;
   final String name;
+  final String profilePictureUrl;
 
   @override
   String toString() {
@@ -15,5 +17,5 @@ class UserEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [email, name];
+  List<Object?> get props => [email, name, profilePictureUrl];
 }

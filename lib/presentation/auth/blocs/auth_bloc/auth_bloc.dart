@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:gemini_app/data/models/auth/user.dart';
-import 'package:gemini_app/domain/entities/auth/user.dart';
+import 'package:gemini_app/data/models/user.dart';
+import 'package:gemini_app/domain/entities/user.dart';
 import 'package:gemini_app/domain/repository/auth/auth.dart';
 
 import '../../../../service_locator.dart';
