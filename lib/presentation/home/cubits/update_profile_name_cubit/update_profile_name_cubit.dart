@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:gemini_app/core/error_handling/failures.dart';
-import 'package:gemini_app/data/models/profile/update_name_req.dart';
+import 'package:gemini_app/data/models/profile/update_profile_name_req.dart';
 import 'package:gemini_app/domain/usecases/profile/update_name.dart';
 import 'package:gemini_app/presentation/auth/widgets/forms/name.dart';
 

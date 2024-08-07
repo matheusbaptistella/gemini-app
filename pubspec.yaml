@@ -17,6 +17,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_map: ^7.0.2
+  flutter_map_geojson: ^1.0.8
   formz: ^0.7.0
   get_it: ^7.7.0
   google_fonts: ^6.2.1
@@ -24,6 +26,7 @@ dependencies:
   hydrated_bloc: ^9.1.5
   image_picker: ^1.1.2
   json_annotation: ^4.9.0
+  latlong2: ^0.9.1
   path_provider: ^2.1.3
   rxdart: ^0.28.0
 
@@ -44,16 +47,11 @@ flutter:
 
 flutter_native_splash:
   android: true
-  ios: true
   web: false
   color: "#F6F5F0"
   color_dark: "#272726"
-  image: assets/gemini-logo.png
-  branding: assets/gemini-name.png
-  branding_mode: bottom
+  image: assets/images/gemini-logo.png
   android_12:
-    image: assets/gemini-logo.png
-    branding: assets/gemini-name.png
-    branding_mode: bottom
+    image: assets/images/gemini-logo.png
     color: "#F6F5F0"
     color_dark: "#272726"

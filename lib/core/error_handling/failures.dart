@@ -46,16 +46,16 @@ class UpdateProfilePictureUrlFailure extends Failure {
                 'An unknown exception occurred when updating the profile picture url.');
 }
 
-class SelectProfilePictureFailure extends Failure {
-  const SelectProfilePictureFailure({String? message})
+class SelectPictureFailure extends Failure {
+  const SelectPictureFailure({String? message})
       : super(
             message: message ??
-                'An unknown exception occurred when selecting the profile picture.');
+                'An unknown exception occurred when selecting the picture.');
 }
 
-class UploadProfilePictureFailure extends Failure {
-  const UploadProfilePictureFailure({String? message})
+class UploadPictureFailure extends Failure {
+  const UploadPictureFailure({String? message})
       : super(
             message: message ??
-                'An unknown exception occurred when uploading the profile picture.');
+                'An unknown exception occurred when uploading the picture.');
 }

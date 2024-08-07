@@ -28,10 +28,10 @@ class UpdateProfilePictureUrlException extends CustomException {
   UpdateProfilePictureUrlException({super.message});
 }
 
-class SelectProfilePictureException extends CustomException {
-  SelectProfilePictureException({super.message});
+class SelectPictureException extends CustomException {
+  SelectPictureException({super.message});
 }
 
-class UploadProfilePictureException extends CustomException {
-  UploadProfilePictureException({super.message});
+class UploadPictureException extends CustomException {
+  UploadPictureException({super.message});
 }
