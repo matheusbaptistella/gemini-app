@@ -12,8 +12,8 @@ import '../../../service_locator.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   @override
-  Future<void> logOut() async {
-    return await sl<AuthFirebaseService>().logOut();
+  Future<void> signOut() async {
+    return await sl<AuthFirebaseService>().signOut();
   }
 
   @override
@@ -21,7 +21,7 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       return Right(await sl<AuthFirebaseService>().signIn(req));
     } on SignInWithEmailAndPasswordException catch (e) {
-      return Left(SignInWithEmailAndPasswordFailure.fromCode(e.code));
+      return Left(SignInWithEmailAndPasswordFailure(message: e.message));
     } catch (_) {
       return const Left(SignInWithEmailAndPasswordFailure());
     }
@@ -32,7 +32,7 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       return Right(await sl<AuthFirebaseService>().signInWithGoogle());
     } on SignInWithGoogleException catch (e) {
-      throw Left(SignInWithGoogleFailure.fromCode(e.code));
+      throw Left(SignInWithGoogleFailure(message: e.message));
     } catch (_) {
       return const Left(SignInWithGoogleFailure());
     }
@@ -44,7 +44,7 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       return Right(await sl<AuthFirebaseService>().resetPasswordWithEmail(req));
     } on ResetPasswordWithEmailException catch (e) {
-      return Left(ResetPasswordWithEmailFailure.fromCode(e.code));
+      return Left(ResetPasswordWithEmailFailure(message: e.message));
     } catch (_) {
       return const Left(ResetPasswordWithEmailFailure());
     }
@@ -56,13 +56,13 @@ class AuthRepositoryImpl extends AuthRepository {
       final user = await sl<AuthFirebaseService>().signUp(req);
       return Right(user.toEntity());
     } on SignUpWithEmailAndPasswordException catch (e) {
-      return Left(SignUpWithEmailAndPasswordFailure.fromCode(e.code));
+      return Left(SignUpWithEmailAndPasswordFailure(message: e.message));
     } catch (_) {
       return const Left(SignUpWithEmailAndPasswordFailure());
     }
   }
 
   @override
-  Stream<UserEntity> get user =>
-      sl<AuthFirebaseService>().user.map((user) => user.toEntity());
+  Stream<UserEntity> get userAuth =>
+      sl<AuthFirebaseService>().userAuth.map((user) => user.toEntity());
 }

@@ -6,11 +6,11 @@ import 'package:gemini_app/data/models/auth/sign_in_user_req.dart';
 import 'package:gemini_app/domain/entities/user.dart';
 
 abstract class AuthRepository {
-  Future<void> logOut();
+  Future<void> signOut();
   Future<Either<Failure, void>> signIn(SignInUserReq req);
   Future<Either<Failure, void>> signInWithGoogle();
   Future<Either<Failure, UserEntity>> signUp(SignUpUserReq req);
   Future<Either<Failure, void>> resetPasswordWithEmail(
       ResetPasswordWithEmailReq req);
-  Stream<UserEntity> get user;
+  Stream<UserEntity> get userAuth;
 }

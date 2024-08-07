@@ -6,10 +6,11 @@ import 'package:gemini_app/domain/repository/auth/auth.dart';
 
 import '../../../service_locator.dart';
 
-class ResetPasswordWithEmailUseCase implements UseCase<Either<Failure, void>, ResetPasswordWithEmailReq> {
+class ResetPasswordWithEmailUseCase
+    implements UseCase<Either<Failure, void>, ResetPasswordWithEmailReq> {
   @override
-  Future<Either<Failure, void>> call({required ResetPasswordWithEmailReq params}) async {
+  Future<Either<Failure, void>> call(
+      {required ResetPasswordWithEmailReq params}) async {
     return sl<AuthRepository>().resetPasswordWithEmail(params);
   }
-
 }
