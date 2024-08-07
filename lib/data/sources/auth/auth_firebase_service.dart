@@ -12,17 +12,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/transformers.dart';
 
 abstract class AuthFirebaseService {
-  Future<void> logOut();
-
+  Future<void> signOut();
   Future<void> signIn(SignInUserReq req);
-
   Future<void> signInWithGoogle();
-
   Future<UserModel> signUp(SignUpUserReq req);
-
   Future<void> resetPasswordWithEmail(ResetPasswordWithEmailReq req);
-
-  Stream<UserModel> get user;
+  Stream<UserModel> get userAuth;
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
@@ -33,7 +28,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   @override
-  Future<void> logOut() async {
+  Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
 
@@ -44,7 +39,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
           email: req.email, password: req.password);
     } on FirebaseAuthException catch (e) {
       log(e.toString());
-      throw SignInWithEmailAndPasswordException(code: e.code);
+      throw SignInWithEmailAndPasswordException(message: e.message);
     } catch (_) {
       rethrow;
     }
@@ -71,8 +66,9 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
       await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       log(e.toString());
-      throw SignInWithGoogleException(code: e.code);
+      throw SignInWithGoogleException(message: e.message);
     } catch (e) {
+      log(e.toString());
       rethrow;
     }
   }
@@ -82,7 +78,11 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
     try {
       UserCredential data = await _firebaseAuth.createUserWithEmailAndPassword(
           email: req.email, password: req.password);
-      UserModel model = UserModel(email: req.email, name: req.name, profilePictureUrl: '');
+      UserModel model = UserModel(
+          userId: data.user!.uid,
+          email: req.email,
+          name: req.name,
+          profilePictureUrl: '');
       await FirebaseFirestore.instance
           .collection('users')
           .doc(data.user?.uid)
@@ -90,7 +90,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
       return model;
     } on FirebaseAuthException catch (e) {
       log(e.toString());
-      throw SignUpWithEmailAndPasswordException(code: e.code);
+      throw SignUpWithEmailAndPasswordException(message: e.message);
     } catch (_) {
       rethrow;
     }
@@ -102,14 +102,14 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
       await _firebaseAuth.sendPasswordResetEmail(email: req.email);
     } on FirebaseAuthException catch (e) {
       log(e.toString());
-      throw ResetPasswordWithEmailException(code: e.code);
+      throw ResetPasswordWithEmailException(message: e.message);
     } catch (_) {
       rethrow;
     }
   }
 
   @override
-  Stream<UserModel> get user {
+  Stream<UserModel> get userAuth {
     return _firebaseAuth.authStateChanges().flatMap((firebaseUser) async* {
       if (firebaseUser == null) {
         yield UserModel.empty;

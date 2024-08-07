@@ -13,6 +13,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = UserModel(
+          userId: $checkedConvert('user_id', (v) => v as String),
           email: $checkedConvert('email', (v) => v as String),
           name: $checkedConvert('name', (v) => v as String),
           profilePictureUrl:
@@ -20,10 +21,14 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => $checkedCreate(
         );
         return val;
       },
-      fieldKeyMap: const {'profilePictureUrl': 'profile_picture_url'},
+      fieldKeyMap: const {
+        'userId': 'user_id',
+        'profilePictureUrl': 'profile_picture_url'
+      },
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
+      'user_id': instance.userId,
       'email': instance.email,
       'name': instance.name,
       'profile_picture_url': instance.profilePictureUrl,

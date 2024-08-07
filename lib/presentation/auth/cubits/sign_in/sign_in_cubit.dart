@@ -43,9 +43,8 @@ class SignInCubit extends Cubit<SignInState> {
     //     SignInUserReq(
     //         email: state.email.value, password: state.password.value));
     final Either<Failure, void> result = await sl<SignInUseCase>().call(
-      params: SignInUserReq(
-        email: state.email.value, password: state.password.value)
-        );
+        params: SignInUserReq(
+            email: state.email.value, password: state.password.value));
     result.fold(
       (failure) => emit(state.copyWith(
           status: FormzSubmissionStatus.failure,
@@ -58,7 +57,8 @@ class SignInCubit extends Cubit<SignInState> {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
     // final Either<Failure, void> result =
     //     await sl<AuthRepository>().signInWithGoogle();
-    final Either<Failure, void> result = await sl<SignInWithGoogleUseCase>().call();
+    final Either<Failure, void> result =
+        await sl<SignInWithGoogleUseCase>().call();
     result.fold(
       (failure) => emit(state.copyWith(
         status: FormzSubmissionStatus.failure,

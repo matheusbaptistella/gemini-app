@@ -1,17 +1,37 @@
-import 'package:firebase_auth/firebase_auth.dart';
+class CustomException implements Exception {
+  CustomException({this.message});
 
-class SignInWithEmailAndPasswordException extends FirebaseAuthException {
-  SignInWithEmailAndPasswordException({required super.code});
+  final String? message;
 }
 
-class SignUpWithEmailAndPasswordException extends FirebaseAuthException {
-  SignUpWithEmailAndPasswordException({required super.code});
+class SignInWithEmailAndPasswordException extends CustomException {
+  SignInWithEmailAndPasswordException({super.message});
 }
 
-class SignInWithGoogleException extends FirebaseAuthException {
-  SignInWithGoogleException({required super.code});
+class SignUpWithEmailAndPasswordException extends CustomException {
+  SignUpWithEmailAndPasswordException({super.message});
 }
 
-class ResetPasswordWithEmailException extends FirebaseAuthException {
-  ResetPasswordWithEmailException({required super.code});
+class SignInWithGoogleException extends CustomException {
+  SignInWithGoogleException({super.message});
+}
+
+class ResetPasswordWithEmailException extends CustomException {
+  ResetPasswordWithEmailException({super.message});
+}
+
+class UpdateProfileNameException extends CustomException {
+  UpdateProfileNameException({super.message});
+}
+
+class UpdateProfilePictureUrlException extends CustomException {
+  UpdateProfilePictureUrlException({super.message});
+}
+
+class SelectProfilePictureException extends CustomException {
+  SelectProfilePictureException({super.message});
+}
+
+class UploadProfilePictureException extends CustomException {
+  UploadProfilePictureException({super.message});
 }

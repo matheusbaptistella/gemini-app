@@ -50,7 +50,7 @@ class _SignUpFormState extends State<SignUpForm> {
       child: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: SingleChildScrollView(

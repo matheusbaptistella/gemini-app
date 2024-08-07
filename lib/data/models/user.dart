@@ -5,18 +5,20 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class UserModel {
+  String userId;
   String email;
   String name;
   String profilePictureUrl;
 
-  UserModel({
-    required this.email,
-    required this.name,
-    required this.profilePictureUrl
-  });
+  UserModel(
+      {required this.userId,
+      required this.email,
+      required this.name,
+      required this.profilePictureUrl});
 
   // Default empty user to avoid null cases
   static final empty = UserModel(
+    userId: '',
     email: '',
     name: '',
     profilePictureUrl: '',
@@ -24,6 +26,7 @@ class UserModel {
 
   UserEntity toEntity() {
     return UserEntity(
+      userId: userId,
       email: email,
       name: name,
       profilePictureUrl: profilePictureUrl,
@@ -32,6 +35,7 @@ class UserModel {
 
   static UserModel fromEntity(UserEntity entity) {
     return UserModel(
+      userId: entity.userId,
       email: entity.email,
       name: entity.name,
       profilePictureUrl: entity.profilePictureUrl,
