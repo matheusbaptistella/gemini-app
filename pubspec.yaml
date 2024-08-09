@@ -22,8 +22,8 @@ dependencies:
   formz: ^0.7.0
   get_it: ^7.7.0
   google_fonts: ^6.2.1
+  google_generative_ai: ^0.4.4
   google_sign_in: ^6.2.1
-  hydrated_bloc: ^9.1.5
   image_picker: ^1.1.2
   json_annotation: ^4.9.0
   latlong2: ^0.9.1

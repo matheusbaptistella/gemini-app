@@ -23,8 +23,8 @@ class UpdateProfilePictureCubit extends Cubit<UpdateProfilePictureState> {
   final String userId;
 
   Future<void> updateProfilePicture() async {
-    final Either<Failure, File> pictureResult =
-        await sl<SelectPictureUseCase>().call(params: SelectPictureReq(source: ImageSource.gallery));
+    final Either<Failure, File> pictureResult = await sl<SelectPictureUseCase>()
+        .call(params: SelectPictureReq(source: ImageSource.gallery));
     pictureResult.fold(
       (failure) =>
           emit(UpdateProfilePictureError(errorMessage: failure.message)),
@@ -33,7 +33,9 @@ class UpdateProfilePictureCubit extends Cubit<UpdateProfilePictureState> {
         final Either<Failure, String> uploadResult =
             await sl<UploadPictureUseCase>().call(
                 params: UploadPictureReq(
-                    userId: userId, picture: picture, location: "profile_pictures"));
+                    userId: userId,
+                    picture: picture,
+                    location: "profile_pictures"));
         uploadResult.fold(
             (failure) =>
                 emit(UpdateProfilePictureError(errorMessage: failure.message)),

@@ -46,9 +46,7 @@ Future<void> initializeDependencies() async {
 
   sl.registerSingleton<PictureRepository>(PictureRepositoryImpl());
 
-  sl.registerSingleton<SelectPictureUseCase>(
-      SelectPictureUseCase());
+  sl.registerSingleton<SelectPictureUseCase>(SelectPictureUseCase());
 
-  sl.registerSingleton<UploadPictureUseCase>(
-      UploadPictureUseCase());
+  sl.registerSingleton<UploadPictureUseCase>(UploadPictureUseCase());
 }

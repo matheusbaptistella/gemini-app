@@ -23,8 +23,7 @@ class PictureFirebaseServiceImpl implements PictureFirebaseService {
   @override
   Future<File> selectPicture(SelectPictureReq req) async {
     try {
-      final pickedFile =
-          await ImagePicker().pickImage(source: req.source);
+      final pickedFile = await ImagePicker().pickImage(source: req.source);
       if (pickedFile == null) {
         throw SelectPictureException(message: 'No picture selected.');
       }

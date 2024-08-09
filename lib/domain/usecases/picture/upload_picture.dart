@@ -9,8 +9,7 @@ import '../../../service_locator.dart';
 class UploadPictureUseCase
     implements UseCase<Either<Failure, String>, UploadPictureReq> {
   @override
-  Future<Either<Failure, String>> call(
-      {required UploadPictureReq params}) {
+  Future<Either<Failure, String>> call({required UploadPictureReq params}) {
     return sl<PictureRepository>().uploadPicture(params);
   }
 }

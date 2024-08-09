@@ -21,14 +21,12 @@ class _HomeContentState extends State<HomeContent> {
               child: const Text('Camera'),
               onPressed: () async {
                 Navigator.of(context).pop();
-                
               },
             ),
             TextButton(
               child: const Text('Gallery'),
               onPressed: () async {
                 Navigator.of(context).pop();
-                
               },
             ),
           ],

@@ -54,7 +54,7 @@ class _SignInFormState extends State<SignInForm> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Welcome Back',
@@ -62,6 +62,7 @@ class _SignInFormState extends State<SignInForm> {
                     ),
                     const SizedBox(height: 5),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'New to this app?',
@@ -78,7 +79,12 @@ class _SignInFormState extends State<SignInForm> {
                       iconPassword: iconPassword,
                       togglePasswordVisibility: togglePasswordVisibility,
                     ),
-                    _ForgotPasswordButton(),
+                    Row(
+                      children: [
+                        _ForgotPasswordButton(),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: _SignInButton(
@@ -86,11 +92,15 @@ class _SignInFormState extends State<SignInForm> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                      'Or sign in with:',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.kBlackColor,
-                          ),
+                    Row(
+                      children: [
+                        Text(
+                          'Or sign in with:',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: AppColors.kBlackColor,
+                              ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     _SignInWithGoogleButton(

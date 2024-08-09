@@ -23,8 +23,7 @@ class PictureRepositoryImpl implements PictureRepository {
   }
 
   @override
-  Future<Either<Failure, String>> uploadPicture(
-      UploadPictureReq req) async {
+  Future<Either<Failure, String>> uploadPicture(UploadPictureReq req) async {
     try {
       return Right(await sl<PictureFirebaseService>().uploadPicture(req));
     } on UploadPictureException catch (e) {

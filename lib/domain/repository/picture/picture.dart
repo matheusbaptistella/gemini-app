@@ -7,6 +7,5 @@ import 'package:gemini_app/data/models/picture/upload_picture_req.dart';
 
 abstract class PictureRepository {
   Future<Either<Failure, File>> selectPicture(SelectPictureReq req);
-  Future<Either<Failure, String>> uploadPicture(
-      UploadPictureReq req);
+  Future<Either<Failure, String>> uploadPicture(UploadPictureReq req);
 }

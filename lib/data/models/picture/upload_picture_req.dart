@@ -5,5 +5,6 @@ class UploadPictureReq {
   final File picture;
   final String location;
 
-  UploadPictureReq({required this.userId, required this.picture, required this.location});
+  UploadPictureReq(
+      {required this.userId, required this.picture, required this.location});
 }
