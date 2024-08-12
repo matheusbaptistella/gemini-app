@@ -153,7 +153,14 @@ class _HomeContentState extends State<HomeContent> {
                       flex: 8,
                       child: BlocBuilder<StoryCubit, StoryState>(
                         builder: (context, state) {
-                          if (state is StoryParsed) {
+                          if (state is StoryLoading) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.kLightGreyColor
+                                          .withOpacity(0.5),
+                              ),
+                            );
+                          } else if (state is StoryParsed) {
                             final chapters = state.story.chapters;
 
                             return Column(

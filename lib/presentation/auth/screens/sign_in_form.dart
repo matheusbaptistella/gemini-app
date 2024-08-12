@@ -47,76 +47,124 @@ class _SignInFormState extends State<SignInForm> {
         }
       },
       child: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: SingleChildScrollView(
-                child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Welcome Back',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'New to this app?',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Colors.white,
-                                  ),
+  child: LayoutBuilder(
+    builder: (context, constraints) {
+      // Check the width constraint
+      bool isWideScreen = constraints.maxWidth > 600;
+
+      return Stack(
+        children: [
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Welcome Back',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'New to this app?',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                          const SizedBox(width: 5),
+                          _SignUpButton(),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      _EmailInput(),
+                      _PasswordInput(
+                        obscurePassword: obscurePassword,
+                        iconPassword: iconPassword,
+                        togglePasswordVisibility: togglePasswordVisibility,
+                      ),
+                      Row(
+                        children: [
+                          _ForgotPasswordButton(),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: _SignInButton(
+                          didAttemptToSignIn: didAttemptToSignIn,
                         ),
-                        const SizedBox(width: 5),
-                        _SignUpButton(),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    _EmailInput(),
-                    _PasswordInput(
-                      obscurePassword: obscurePassword,
-                      iconPassword: iconPassword,
-                      togglePasswordVisibility: togglePasswordVisibility,
-                    ),
-                    Row(
-                      children: [
-                        _ForgotPasswordButton(),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: _SignInButton(
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Text(
+                            'Or sign in with:',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      _SignInWithGoogleButton(
                         didAttemptToSignIn: didAttemptToSignIn,
                       ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // BedTime <image> positioned based on screen width
+          Positioned(
+            top: 0,
+            left: isWideScreen ? 0 : null,
+            right: isWideScreen ? null : 0,
+            child: Align(
+              alignment: isWideScreen
+                  ? Alignment.topLeft
+                  : Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0), // Optional padding
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(width: 8),
+                    Image.asset(
+                      'assets/images/logo.png', // Replace with your image path
+                      width: 170,
+                      height: 170,
                     ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Text(
-                          'Or sign in with:',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.white,
-                                  ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    _SignInWithGoogleButton(
-                      didAttemptToSignIn: didAttemptToSignIn,
+                    const SizedBox(width: 8),
+                    Text(
+                      'BedTime',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.white,
+                        fontSize: 60
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        ],
+      );
+    },
+  ),
+)
+
     );
   }
 }

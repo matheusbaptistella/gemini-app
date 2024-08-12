@@ -16,6 +16,7 @@ class StoryCubit extends Cubit<StoryState> {
   StoryCubit() : super(StoryInitial());
 
   Future<void> createStory(String words) async {
+    emit(StoryLoading());
     final Either<Failure, String> storyResult = await sl<CreateStoryUseCase>()
         .call(params: CreateStoryReq(words: words));
     storyResult

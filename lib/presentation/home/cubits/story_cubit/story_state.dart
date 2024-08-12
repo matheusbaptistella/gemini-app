@@ -9,6 +9,8 @@ sealed class StoryState extends Equatable {
 
 class StoryInitial extends StoryState {}
 
+class StoryLoading extends StoryState {}
+
 class StoryCreated extends StoryState {
   const StoryCreated({required this.story});
 
