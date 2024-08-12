@@ -35,3 +35,11 @@ class SelectPictureException extends CustomException {
 class UploadPictureException extends CustomException {
   UploadPictureException({super.message});
 }
+
+class CreateStoryException extends CustomException {
+  CreateStoryException({super.message});
+}
+
+class ParseStoryException extends CustomException {
+  ParseStoryException({super.message});
+}

@@ -59,3 +59,17 @@ class UploadPictureFailure extends Failure {
             message: message ??
                 'An unknown exception occurred when uploading the picture.');
 }
+
+class CreateStoryFailure extends Failure {
+  const CreateStoryFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occured when creating the story.');
+}
+
+class ParseStoryFailure extends Failure {
+  const ParseStoryFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occured when parsing the story.');
+}

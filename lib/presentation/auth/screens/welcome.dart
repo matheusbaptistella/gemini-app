@@ -9,11 +9,23 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
   final List<String> words = [
-    "Ecosystem", "Nature", "Sustainability", "Responsible",
-    "Water", "Sapling", "Green", "Biodiversity",
-    "Forest", "Ecological", "Humane", "Climate", "Life", "Tree",
+    "Dream",
+    "Slumber",
+    "Lullaby",
+    "Imagination",
+    "Bedtime",
+    "Story",
+    "Nightlight",
+    "Teddy",
+    "Pajamas",
+    "Whisper",
+    "Cozy",
+    "Sleepy",
+    "Fantasy",
+    "Moonlight",
   ];
   late final List<String> _loopedWords = [...words, ...words];
   final List<TextStyle> textStyles = [
@@ -65,9 +77,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ScrollingText(duration: const Duration(seconds: 50), begin: Offset.zero, end: const Offset(-2800, 0), texts: applyStyles(0)),
-            ScrollingText(duration: const Duration(seconds: 40), begin: const Offset(-2800, 0), end: Offset.zero, texts: applyStyles(3)),
-            ScrollingText(duration: const Duration(seconds: 70), begin: Offset.zero, end: const Offset(-2800, 0), texts: applyStyles(1)),
+            ScrollingText(
+                duration: const Duration(seconds: 50),
+                begin: Offset.zero,
+                end: const Offset(-2800, 0),
+                texts: applyStyles(0)),
+            ScrollingText(
+                duration: const Duration(seconds: 40),
+                begin: const Offset(-2800, 0),
+                end: Offset.zero,
+                texts: applyStyles(3)),
+            ScrollingText(
+                duration: const Duration(seconds: 70),
+                begin: Offset.zero,
+                end: const Offset(-2800, 0),
+                texts: applyStyles(1)),
           ],
         ),
       ),
@@ -76,7 +100,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
 }
 
 class ScrollingText extends StatefulWidget {
-  const ScrollingText({super.key, required this.duration, required this.begin, required this.end, required this.texts});
+  const ScrollingText(
+      {super.key,
+      required this.duration,
+      required this.begin,
+      required this.end,
+      required this.texts});
 
   final Duration duration;
   final Offset begin;
@@ -87,7 +116,8 @@ class ScrollingText extends StatefulWidget {
   State<ScrollingText> createState() => _ScrollingTextState();
 }
 
-class _ScrollingTextState extends State<ScrollingText> with SingleTickerProviderStateMixin {
+class _ScrollingTextState extends State<ScrollingText>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animation = _animation = Tween<Offset>(
     begin: widget.begin,
@@ -100,9 +130,11 @@ class _ScrollingTextState extends State<ScrollingText> with SingleTickerProvider
     _controller = AnimationController(
       vsync: this,
       duration: widget.duration,
-    )..repeat()..addListener(() {
-      setState(() {});
-    });
+    )
+      ..repeat()
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override

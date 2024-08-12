@@ -31,7 +31,7 @@ class _CheckBoxState extends State<CheckBox> {
                   height: 20,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: AppColors.kDarkGreyColor)),
+                      border: Border.all(color: AppColors.kWhiteColor)),
                   child: _isSelected
                       ? const Icon(
                           Icons.check,
@@ -45,7 +45,10 @@ class _CheckBoxState extends State<CheckBox> {
             const SizedBox(
               width: 12,
             ),
-            Text(widget.text),
+            Text(
+              widget.text,
+              style: TextStyle(color: Colors.white),
+            ),
           ],
         )
       ],

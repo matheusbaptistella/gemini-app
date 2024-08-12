@@ -62,7 +62,9 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     const SizedBox(height: 5),
                     Text(
                       'We’ll send an email with a link to reset the password.',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Colors.white,
+                          ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -99,12 +101,25 @@ class _EmailInput extends StatelessWidget {
           onChanged: (email) =>
               context.read<ResetPasswordCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+            color: Colors.white, // Change this to your desired text color
+          ),
           decoration: InputDecoration(
             labelText: 'Email',
             labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kTextFieldColor,
+                  color: Colors.white,
                 ),
             helperText: '',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                      Colors.white), // Change this to your desired border color
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .white), // Change this to your desired border color when focused
+            ),
             errorText:
                 state.email.displayError != null ? 'invalid email' : null,
           ),
@@ -156,7 +171,7 @@ class _ResetPasswordButton extends StatelessWidget {
                   child: Text(
                     'Send',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: AppColors.kWhiteColor,
+                          color: AppColors.kLightGreyColor,
                           fontSize: 18,
                         ),
                   ),
@@ -181,6 +196,7 @@ class _SignInButton extends StatelessWidget {
               fontSize: 18,
               decoration: TextDecoration.underline,
               decorationThickness: 1,
+              decorationColor: AppColors.kPrimaryColor,
             ),
       ),
     );

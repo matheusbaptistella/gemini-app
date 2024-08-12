@@ -66,7 +66,10 @@ class _SignInFormState extends State<SignInForm> {
                       children: [
                         Text(
                           'New to this app?',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Colors.white,
+                                  ),
                         ),
                         const SizedBox(width: 5),
                         _SignUpButton(),
@@ -96,9 +99,10 @@ class _SignInFormState extends State<SignInForm> {
                       children: [
                         Text(
                           'Or sign in with:',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: AppColors.kBlackColor,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Colors.white,
+                                  ),
                         ),
                       ],
                     ),
@@ -136,6 +140,7 @@ class _SignUpButton extends StatelessWidget {
               fontSize: 18,
               decoration: TextDecoration.underline,
               decorationThickness: 1,
+              decorationColor: AppColors.kPrimaryColor,
             ),
       ),
     );
@@ -152,12 +157,25 @@ class _EmailInput extends StatelessWidget {
           key: const Key('signInForm_emailInput_textField'),
           onChanged: (email) => context.read<SignInCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+            color: Colors.white, // Change this to your desired text color
+          ),
           decoration: InputDecoration(
             labelText: 'Email',
             labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kTextFieldColor,
+                  color: Colors.white,
                 ),
             helperText: '',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                      Colors.white), // Change this to your desired border color
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .white), // Change this to your desired border color when focused
+            ),
             errorText:
                 state.email.displayError != null ? 'invalid email' : null,
           ),
@@ -188,17 +206,31 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (password) =>
               context.read<SignInCubit>().passwordChanged(password),
           obscureText: obscurePassword,
+          style: const TextStyle(
+            color: Colors.white, // Change this to your desired text color
+          ),
           decoration: InputDecoration(
             labelText: 'Password',
             labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kTextFieldColor,
+                  color: Colors.white,
                 ),
             helperText: '',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                      Colors.white), // Change this to your desired border color
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .white), // Change this to your desired border color when focused
+            ),
             errorText:
                 state.password.displayError != null ? 'invalid password' : null,
             suffixIcon: IconButton(
               icon: Icon(iconPassword),
               onPressed: togglePasswordVisibility,
+              color: Colors.white,
             ),
           ),
         );
@@ -229,10 +261,6 @@ class _SignInButton extends StatelessWidget {
                   key: const Key('signInForm_signIn_textButton'),
                   style: TextButton.styleFrom(
                     backgroundColor: AppColors.kPrimaryColor,
-                    // padding: EdgeInsets.symmetric(
-                    //   vertical: MediaQuery.of(context).size.height * 0.02,
-                    //   horizontal: MediaQuery.of(context).size.width * 0.35,
-                    // ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -248,7 +276,7 @@ class _SignInButton extends StatelessWidget {
                   child: Text(
                     'Sign In',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: AppColors.kWhiteColor,
+                          color: AppColors.kLightGreyColor,
                           fontSize: 18,
                         ),
                   ),
@@ -278,6 +306,7 @@ class _ForgotPasswordButton extends StatelessWidget {
               fontSize: 18,
               decoration: TextDecoration.underline,
               decorationThickness: 1,
+              decorationColor: AppColors.kPrimaryColor,
             ),
       ),
     );
@@ -303,10 +332,6 @@ class _SignInWithGoogleButton extends StatelessWidget {
             key: const Key('signInForm_signInGoogle_textButton'),
             style: TextButton.styleFrom(
               backgroundColor: Colors.white,
-              // padding: EdgeInsets.symmetric(
-              //   vertical: MediaQuery.of(context).size.height * 0.015, // Adjusted padding for better fit
-              //   horizontal: MediaQuery.of(context).size.width * 0.1, // Adjusted horizontal padding
-              // ),
               shape: RoundedRectangleBorder(
                 side: BorderSide(color: Colors.grey.shade300),
                 borderRadius: BorderRadius.circular(10),
@@ -328,8 +353,8 @@ class _SignInWithGoogleButton extends StatelessWidget {
                 Text(
                   'Google',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontSize:
-                            20, // Overriding the size to match the previous one
+                        fontSize: 20,
+                        color: AppColors.kLightGreyColor,
                       ),
                 ),
               ],

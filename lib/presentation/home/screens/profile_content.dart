@@ -39,53 +39,71 @@ class _ProfileContentState extends State<ProfileContent> {
       },
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: SingleChildScrollView(
-            child: BlocBuilder<ProfileCubit, ProfileState>(
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 90,
-                            backgroundImage: state
-                                    .user.profilePictureUrl.isNotEmpty
-                                ? NetworkImage(state.user.profilePictureUrl)
-                                : const AssetImage(
-                                        'assets/images/default-profile-picture.png')
-                                    as ImageProvider,
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.kPrimaryColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () {
-                                  context
-                                      .read<UpdateProfilePictureCubit>()
-                                      .updateProfilePicture();
-                                },
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: SingleChildScrollView(
+                    child: BlocBuilder<ProfileCubit, ProfileState>(
+                      builder: (context, state) {
+                        return Column(
+                          children: [
+                            const SizedBox(height: 20),
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Stack(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 90,
+                                    backgroundImage: state
+                                            .user.profilePictureUrl.isNotEmpty
+                                        ? NetworkImage(
+                                            state.user.profilePictureUrl)
+                                        : const AssetImage(
+                                                'assets/images/default-profile-picture.png')
+                                            as ImageProvider,
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: AppColors.kPrimaryColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: IconButton(
+                                        icon: const Icon(Icons.edit),
+                                        color: AppColors.kLightGreyColor,
+                                        onPressed: () {
+                                          context
+                                              .read<UpdateProfilePictureCubit>()
+                                              .updateProfilePicture();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(height: 30),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: _NameEditBox(name: state.user.name),
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                    const SizedBox(height: 30),
-                    _NameEditBox(name: state.user.name),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -102,21 +120,27 @@ class _NameEditBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => _showEditNameDialog(context),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.kPrimaryColor),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              name,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const Icon(Icons.edit, color: AppColors.kPrimaryColor),
-          ],
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 600),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.kLightGreyColor),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                name,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 20,
+                      color: AppColors.kLightGreyColor,
+                    ),
+              ),
+              const Icon(Icons.edit, color: AppColors.kLightGreyColor),
+            ],
+          ),
         ),
       ),
     );

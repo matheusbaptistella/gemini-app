@@ -1,12 +1,15 @@
 import 'package:gemini_app/data/repository/auth/auth_repository_impl.dart';
 import 'package:gemini_app/data/repository/profile/profile_repository_impl.dart';
 import 'package:gemini_app/data/repository/picture/picture_repository_impl.dart';
+import 'package:gemini_app/data/repository/story/story_repository.dart';
 import 'package:gemini_app/data/sources/auth/auth_firebase_service.dart';
 import 'package:gemini_app/data/sources/profile/profile_firebase_service.dart';
 import 'package:gemini_app/data/sources/picture/picture_firebase_service.dart';
+import 'package:gemini_app/data/sources/story/story_gemini_service.dart';
 import 'package:gemini_app/domain/repository/auth/auth.dart';
 import 'package:gemini_app/domain/repository/profile/profile.dart';
 import 'package:gemini_app/domain/repository/picture/picture.dart';
+import 'package:gemini_app/domain/repository/story/story.dart';
 import 'package:gemini_app/domain/usecases/auth/reset_password.dart';
 import 'package:gemini_app/domain/usecases/auth/sign_in.dart';
 import 'package:gemini_app/domain/usecases/auth/sign_in_with_google.dart';
@@ -15,6 +18,8 @@ import 'package:gemini_app/domain/usecases/profile/update_name.dart';
 import 'package:gemini_app/domain/usecases/profile/update_picture_url.dart';
 import 'package:gemini_app/domain/usecases/picture/select_picture.dart';
 import 'package:gemini_app/domain/usecases/picture/upload_picture.dart';
+import 'package:gemini_app/domain/usecases/story/create_story.dart';
+import 'package:gemini_app/domain/usecases/story/parse_story.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -49,4 +54,12 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<SelectPictureUseCase>(SelectPictureUseCase());
 
   sl.registerSingleton<UploadPictureUseCase>(UploadPictureUseCase());
+
+  sl.registerSingleton<StoryGeminiService>(StoryGeminiServiceImpl());
+
+  sl.registerSingleton<StoryRepository>(StoryRepostitoryImpl());
+
+  sl.registerSingleton<CreateStoryUseCase>(CreateStoryUseCase());
+
+  sl.registerSingleton<ParseStoryUseCase>(ParseStoryUseCase());
 }
