@@ -5,59 +5,71 @@ abstract class Failure {
 }
 
 class SignInWithEmailAndPasswordFailure extends Failure {
-  const SignInWithEmailAndPasswordFailure({super.message = 'An unknown log in exception occurred.'});
-
-  factory SignInWithEmailAndPasswordFailure.fromCode(String code) {
-    switch (code) {
-      case 'invalid-email':
-        return const SignInWithEmailAndPasswordFailure(
-          message: 'Email is not valid or badly formatted.',
-        );
-      case 'user-disabled':
-        return const SignInWithEmailAndPasswordFailure(
-          message: 'This user has been disabled. Please contact support for help.',
-        );
-      case 'user-not-found':
-        return const SignInWithEmailAndPasswordFailure(
-          message: 'Email is not found, please create an account.',
-        );
-      case 'wrong-password':
-        return const SignInWithEmailAndPasswordFailure(
-          message: 'Incorrect password, please try again.',
-        );
-      default:
-        return const SignInWithEmailAndPasswordFailure();
-    }
-  }
+  const SignInWithEmailAndPasswordFailure({String? message})
+      : super(
+            message:
+                message ?? 'An unknown exception occurred when signing in.');
 }
 
 class SignUpWithEmailAndPasswordFailure extends Failure {
-  const SignUpWithEmailAndPasswordFailure({super.message = 'An unknown sign upexception occurred.'});
+  const SignUpWithEmailAndPasswordFailure({String? message})
+      : super(
+            message:
+                message ?? 'An unknown exception occurred when signing up.');
+}
 
-  factory SignUpWithEmailAndPasswordFailure.fromCode(String code) {
-    switch (code) {
-      case 'invalid-email':
-        return const SignUpWithEmailAndPasswordFailure(
-          message: 'Email is not valid or badly formatted.',
-        );
-      case 'user-disabled':
-        return const SignUpWithEmailAndPasswordFailure(
-          message: 'This user has been disabled. Please contact support for help.',
-        );
-      case 'email-already-in-use':
-        return const SignUpWithEmailAndPasswordFailure(
-          message: 'An account already exists for that email.',
-        );
-      case 'operation-not-allowed':
-        return const SignUpWithEmailAndPasswordFailure(
-          message: 'Operation is not allowed. Please contact support.',
-        );
-      case 'weak-password':
-        return const SignUpWithEmailAndPasswordFailure(
-          message: 'Please enter a stronger password.',
-        );
-      default:
-        return const SignUpWithEmailAndPasswordFailure();
-    }
-  }
+class SignInWithGoogleFailure extends Failure {
+  const SignInWithGoogleFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occurred when signing in with Google.');
+}
+
+class ResetPasswordWithEmailFailure extends Failure {
+  const ResetPasswordWithEmailFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occurred when resetting the password.');
+}
+
+class UpdateProfileNameFailure extends Failure {
+  const UpdateProfileNameFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occurred when updating the profile name.');
+}
+
+class UpdateProfilePictureUrlFailure extends Failure {
+  const UpdateProfilePictureUrlFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occurred when updating the profile picture url.');
+}
+
+class SelectPictureFailure extends Failure {
+  const SelectPictureFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occurred when selecting the picture.');
+}
+
+class UploadPictureFailure extends Failure {
+  const UploadPictureFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occurred when uploading the picture.');
+}
+
+class CreateStoryFailure extends Failure {
+  const CreateStoryFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occured when creating the story.');
+}
+
+class ParseStoryFailure extends Failure {
+  const ParseStoryFailure({String? message})
+      : super(
+            message: message ??
+                'An unknown exception occured when parsing the story.');
 }

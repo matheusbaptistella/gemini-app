@@ -23,11 +23,20 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -41,48 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDdFj2oFQg9TaWV5V-U9zWNFG3Osu1fFTE',
-    appId: '1:415577495058:web:cd64449fee59c7adad2acb',
-    messagingSenderId: '415577495058',
-    projectId: 'gemini-app-3b9f7',
-    authDomain: 'gemini-app-3b9f7.firebaseapp.com',
-    storageBucket: 'gemini-app-3b9f7.appspot.com',
-    measurementId: 'G-97T58Y6PPK',
+    apiKey: 'AIzaSyDNoqZf-odfMgUx0wL8MBQDiozP9gU3NSo',
+    appId: '1:944845845109:web:d642e3e61f04c972c6be3c',
+    messagingSenderId: '944845845109',
+    projectId: 'gemini-app-d17af',
+    authDomain: 'gemini-app-d17af.firebaseapp.com',
+    storageBucket: 'gemini-app-d17af.appspot.com',
+    measurementId: 'G-Y4RR73ML3X',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyApeitnpG-cEu-j-JisIjUgxKhwelFJbzc',
-    appId: '1:415577495058:android:8942d2f9e51cec77ad2acb',
-    messagingSenderId: '415577495058',
-    projectId: 'gemini-app-3b9f7',
-    storageBucket: 'gemini-app-3b9f7.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBEWu3dVrunHWk2qPbSYEDsaUEVMjnCLMM',
-    appId: '1:415577495058:ios:603737c318631a33ad2acb',
-    messagingSenderId: '415577495058',
-    projectId: 'gemini-app-3b9f7',
-    storageBucket: 'gemini-app-3b9f7.appspot.com',
-    iosBundleId: 'com.example.geminiApp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBEWu3dVrunHWk2qPbSYEDsaUEVMjnCLMM',
-    appId: '1:415577495058:ios:603737c318631a33ad2acb',
-    messagingSenderId: '415577495058',
-    projectId: 'gemini-app-3b9f7',
-    storageBucket: 'gemini-app-3b9f7.appspot.com',
-    iosBundleId: 'com.example.geminiApp',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDdFj2oFQg9TaWV5V-U9zWNFG3Osu1fFTE',
-    appId: '1:415577495058:web:1103a91ae67d21eead2acb',
-    messagingSenderId: '415577495058',
-    projectId: 'gemini-app-3b9f7',
-    authDomain: 'gemini-app-3b9f7.firebaseapp.com',
-    storageBucket: 'gemini-app-3b9f7.appspot.com',
-    measurementId: 'G-9KZVM9KXL5',
+    apiKey: 'AIzaSyAjqHsunlKWY2_u3Ko3lBv8QCMRt_tqdCY',
+    appId: '1:944845845109:android:2e52627336a5dd56c6be3c',
+    messagingSenderId: '944845845109',
+    projectId: 'gemini-app-d17af',
+    storageBucket: 'gemini-app-d17af.appspot.com',
   );
 }

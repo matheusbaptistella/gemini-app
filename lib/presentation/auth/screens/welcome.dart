@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gemini_app/core/configs/theme/app_colors.dart';
-import 'package:gemini_app/presentation/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
-import 'package:gemini_app/presentation/auth/blocs/sign_up_bloc/sign_up_bloc.dart';
-import 'package:gemini_app/presentation/auth/screens/sign_in.dart';
-import 'package:gemini_app/presentation/auth/widgets/auth_options.dart';
-import 'package:gemini_app/presentation/auth/widgets/sign_in_form.dart';
-import 'package:gemini_app/presentation/auth/screens/sign_up.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -15,101 +9,163 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  final List<String> words = [
+    "Dream",
+    "Slumber",
+    "Lullaby",
+    "Imagination",
+    "Bedtime",
+    "Story",
+    "Nightlight",
+    "Teddy",
+    "Pajamas",
+    "Whisper",
+    "Cozy",
+    "Sleepy",
+    "Fantasy",
+    "Moonlight",
+  ];
+  late final List<String> _loopedWords = [...words, ...words];
+  final List<TextStyle> textStyles = [
+    GoogleFonts.urbanist(
+      color: AppColors.kPrimaryColor,
+      fontWeight: FontWeight.w600,
+      fontSize: 60,
+      fontStyle: FontStyle.normal,
+    ),
+    GoogleFonts.urbanist(
+      color: AppColors.kPrimaryColor,
+      fontWeight: FontWeight.w700,
+      fontSize: 57,
+      fontStyle: FontStyle.normal,
+    ),
+    GoogleFonts.urbanist(
+      color: AppColors.kPrimaryColor,
+      fontWeight: FontWeight.w500,
+      fontSize: 59,
+      fontStyle: FontStyle.normal,
+    ),
+    GoogleFonts.urbanist(
+      color: AppColors.kPrimaryColor,
+      fontWeight: FontWeight.w800,
+      fontSize: 58,
+      fontStyle: FontStyle.italic,
+    ),
+  ];
+
+  List<Widget> applyStyles(int startIndex) {
+    return List<Widget>.generate(_loopedWords.length, (index) {
+      int styleIndex = (startIndex + index) % textStyles.length;
+
+      return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Text(
+          words[index % words.length],
+          style: textStyles[styleIndex],
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height / 9,
-          horizontal: MediaQuery.of(context).size.width / 12,
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ScrollingText(
+                duration: const Duration(seconds: 50),
+                begin: Offset.zero,
+                end: const Offset(-2800, 0),
+                texts: applyStyles(0)),
+            ScrollingText(
+                duration: const Duration(seconds: 40),
+                begin: const Offset(-2800, 0),
+                end: Offset.zero,
+                texts: applyStyles(3)),
+            ScrollingText(
+                duration: const Duration(seconds: 70),
+                begin: Offset.zero,
+                end: const Offset(-2800, 0),
+                texts: applyStyles(1)),
+          ],
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 120,
-              ),
-              Text(
-                'Welcome Back',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Text(
-                    'New to this app?',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // Switch to sign up screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (_) => SignUpBloc(),
-                            child: const SignUpScreen(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'Sign Up',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontSize: 18,
-                        decoration: TextDecoration.underline,
-                        decorationThickness: 1,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              BlocProvider<SignInBloc>(
-                create: (_) => SignInBloc(),
-                child: const SignInScreen(),
-              ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // TextButton(
-              //   onPressed: () {},
-              //   child: Text(
-              //     'Forgot password?',
-              //     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              //       color: AppColors.kZambeziColor,
-              //       fontSize: 14,
-              //       decoration: TextDecoration.underline,
-              //       decorationThickness: 1,
-              //     ),
-              //   ),
-              // ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Or sign in with:',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kBlackColor,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              // Button to sign with Google authentication
-              const AuthOptions(),
+      ),
+    );
+  }
+}
+
+class ScrollingText extends StatefulWidget {
+  const ScrollingText(
+      {super.key,
+      required this.duration,
+      required this.begin,
+      required this.end,
+      required this.texts});
+
+  final Duration duration;
+  final Offset begin;
+  final Offset end;
+  final List<Widget> texts;
+
+  @override
+  State<ScrollingText> createState() => _ScrollingTextState();
+}
+
+class _ScrollingTextState extends State<ScrollingText>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _animation = _animation = Tween<Offset>(
+    begin: widget.begin,
+    end: widget.end,
+  ).animate(_controller);
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: widget.duration,
+    )
+      ..repeat()
+      ..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(),
+      clipBehavior: Clip.hardEdge,
+      child: ShaderMask(
+        shaderCallback: (Rect bounds) {
+          return const LinearGradient(
+            colors: [
+              Colors.transparent,
+              Colors.black,
+              Colors.black,
+              Colors.transparent
             ],
+            stops: [0.1, 0.3, 0.7, 0.9],
+          ).createShader(bounds);
+        },
+        blendMode: BlendMode.dstIn,
+        child: Transform.translate(
+          offset: _animation.value,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.texts,
           ),
         ),
       ),

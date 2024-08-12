@@ -3,9 +3,6 @@ class SignUpUserReq {
   final String email;
   final String password;
 
-  SignUpUserReq({
-    required this.name,
-    required this.email,
-    required this.password
-  });
+  SignUpUserReq(
+      {required this.name, required this.email, required this.password});
 }
