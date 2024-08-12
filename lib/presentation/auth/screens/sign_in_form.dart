@@ -47,62 +47,124 @@ class _SignInFormState extends State<SignInForm> {
         }
       },
       child: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Welcome Back',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Text(
-                          'New to this app?',
-                          style: Theme.of(context).textTheme.bodyMedium,
+  child: LayoutBuilder(
+    builder: (context, constraints) {
+      // Check the width constraint
+      bool isWideScreen = constraints.maxWidth > 600;
+
+      return Stack(
+        children: [
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Welcome Back',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'New to this app?',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                          const SizedBox(width: 5),
+                          _SignUpButton(),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      _EmailInput(),
+                      _PasswordInput(
+                        obscurePassword: obscurePassword,
+                        iconPassword: iconPassword,
+                        togglePasswordVisibility: togglePasswordVisibility,
+                      ),
+                      Row(
+                        children: [
+                          _ForgotPasswordButton(),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: _SignInButton(
+                          didAttemptToSignIn: didAttemptToSignIn,
                         ),
-                        const SizedBox(width: 5),
-                        _SignUpButton(),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    _EmailInput(),
-                    _PasswordInput(
-                      obscurePassword: obscurePassword,
-                      iconPassword: iconPassword,
-                      togglePasswordVisibility: togglePasswordVisibility,
-                    ),
-                    _ForgotPasswordButton(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: _SignInButton(
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Text(
+                            'Or sign in with:',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      _SignInWithGoogleButton(
                         didAttemptToSignIn: didAttemptToSignIn,
                       ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // BedTime <image> positioned based on screen width
+          Positioned(
+            top: 0,
+            left: isWideScreen ? 0 : null,
+            right: isWideScreen ? null : 0,
+            child: Align(
+              alignment: isWideScreen
+                  ? Alignment.topLeft
+                  : Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0), // Optional padding
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(width: 8),
+                    Image.asset(
+                      'assets/images/logo.png', // Replace with your image path
+                      width: 170,
+                      height: 170,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(width: 8),
                     Text(
-                      'Or sign in with:',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.kBlackColor,
-                          ),
-                    ),
-                    const SizedBox(height: 20),
-                    _SignInWithGoogleButton(
-                      didAttemptToSignIn: didAttemptToSignIn,
+                      'BedTime',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.white,
+                        fontSize: 60
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        ],
+      );
+    },
+  ),
+)
+
     );
   }
 }
@@ -126,6 +188,7 @@ class _SignUpButton extends StatelessWidget {
               fontSize: 18,
               decoration: TextDecoration.underline,
               decorationThickness: 1,
+              decorationColor: AppColors.kPrimaryColor,
             ),
       ),
     );
@@ -142,12 +205,25 @@ class _EmailInput extends StatelessWidget {
           key: const Key('signInForm_emailInput_textField'),
           onChanged: (email) => context.read<SignInCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+            color: Colors.white, // Change this to your desired text color
+          ),
           decoration: InputDecoration(
             labelText: 'Email',
             labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kTextFieldColor,
+                  color: Colors.white,
                 ),
             helperText: '',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                      Colors.white), // Change this to your desired border color
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .white), // Change this to your desired border color when focused
+            ),
             errorText:
                 state.email.displayError != null ? 'invalid email' : null,
           ),
@@ -178,17 +254,31 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (password) =>
               context.read<SignInCubit>().passwordChanged(password),
           obscureText: obscurePassword,
+          style: const TextStyle(
+            color: Colors.white, // Change this to your desired text color
+          ),
           decoration: InputDecoration(
             labelText: 'Password',
             labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kTextFieldColor,
+                  color: Colors.white,
                 ),
             helperText: '',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                      Colors.white), // Change this to your desired border color
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .white), // Change this to your desired border color when focused
+            ),
             errorText:
                 state.password.displayError != null ? 'invalid password' : null,
             suffixIcon: IconButton(
               icon: Icon(iconPassword),
               onPressed: togglePasswordVisibility,
+              color: Colors.white,
             ),
           ),
         );
@@ -219,10 +309,6 @@ class _SignInButton extends StatelessWidget {
                   key: const Key('signInForm_signIn_textButton'),
                   style: TextButton.styleFrom(
                     backgroundColor: AppColors.kPrimaryColor,
-                    // padding: EdgeInsets.symmetric(
-                    //   vertical: MediaQuery.of(context).size.height * 0.02,
-                    //   horizontal: MediaQuery.of(context).size.width * 0.35,
-                    // ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -238,7 +324,7 @@ class _SignInButton extends StatelessWidget {
                   child: Text(
                     'Sign In',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: AppColors.kWhiteColor,
+                          color: AppColors.kLightGreyColor,
                           fontSize: 18,
                         ),
                   ),
@@ -268,6 +354,7 @@ class _ForgotPasswordButton extends StatelessWidget {
               fontSize: 18,
               decoration: TextDecoration.underline,
               decorationThickness: 1,
+              decorationColor: AppColors.kPrimaryColor,
             ),
       ),
     );
@@ -293,10 +380,6 @@ class _SignInWithGoogleButton extends StatelessWidget {
             key: const Key('signInForm_signInGoogle_textButton'),
             style: TextButton.styleFrom(
               backgroundColor: Colors.white,
-              // padding: EdgeInsets.symmetric(
-              //   vertical: MediaQuery.of(context).size.height * 0.015, // Adjusted padding for better fit
-              //   horizontal: MediaQuery.of(context).size.width * 0.1, // Adjusted horizontal padding
-              // ),
               shape: RoundedRectangleBorder(
                 side: BorderSide(color: Colors.grey.shade300),
                 borderRadius: BorderRadius.circular(10),
@@ -318,8 +401,8 @@ class _SignInWithGoogleButton extends StatelessWidget {
                 Text(
                   'Google',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontSize:
-                            20, // Overriding the size to match the previous one
+                        fontSize: 20,
+                        color: AppColors.kLightGreyColor,
                       ),
                 ),
               ],

@@ -4,11 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gemini_app/core/error_handling/failures.dart';
-import 'package:gemini_app/data/models/profile/update_picture_url_req.dart';
-import 'package:gemini_app/data/models/upload/profile_picture_req.dart';
+import 'package:gemini_app/data/models/picture/select_picture_req.dart';
+import 'package:gemini_app/data/models/profile/update_profile_picture_url_req.dart';
+import 'package:gemini_app/data/models/picture/upload_picture_req.dart';
 import 'package:gemini_app/domain/usecases/profile/update_picture_url.dart';
-import 'package:gemini_app/domain/usecases/upload/select_profile_picture.dart';
-import 'package:gemini_app/domain/usecases/upload/upload_profile_picture.dart';
+import 'package:gemini_app/domain/usecases/picture/select_picture.dart';
+import 'package:gemini_app/domain/usecases/picture/upload_picture.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../service_locator.dart';
 
@@ -21,17 +23,19 @@ class UpdateProfilePictureCubit extends Cubit<UpdateProfilePictureState> {
   final String userId;
 
   Future<void> updateProfilePicture() async {
-    final Either<Failure, File> pictureResult =
-        await sl<SelectProfilePictureUseCase>().call();
+    final Either<Failure, File> pictureResult = await sl<SelectPictureUseCase>()
+        .call(params: SelectPictureReq(source: ImageSource.gallery));
     pictureResult.fold(
       (failure) =>
           emit(UpdateProfilePictureError(errorMessage: failure.message)),
       (picture) async {
         emit(UpdateProfilePictureSelected(profilePicture: picture));
         final Either<Failure, String> uploadResult =
-            await sl<UploadProfilePictureUseCase>().call(
-                params: UploadProfilePictureReq(
-                    userId: userId, profilePicture: picture));
+            await sl<UploadPictureUseCase>().call(
+                params: UploadPictureReq(
+                    userId: userId,
+                    picture: picture,
+                    location: "profile_pictures"));
         uploadResult.fold(
             (failure) =>
                 emit(UpdateProfilePictureError(errorMessage: failure.message)),

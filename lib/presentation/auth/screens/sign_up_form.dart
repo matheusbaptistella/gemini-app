@@ -55,7 +55,7 @@ class _SignUpFormState extends State<SignUpForm> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 60),
                     Text(
@@ -67,7 +67,10 @@ class _SignUpFormState extends State<SignUpForm> {
                       children: [
                         Text(
                           'Already a member?',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Colors.white,
+                                  ),
                         ),
                         const SizedBox(width: 5),
                         _SignInButton(),
@@ -98,6 +101,7 @@ class _SignUpFormState extends State<SignUpForm> {
                         togglePasswordVisibility: togglePasswordVisibility,
                       ),
                     ),
+                    const SizedBox(height: 10),
                     const CheckBox('Agree to terms and conditions.'),
                     const SizedBox(height: 40),
                     _SignUpButton(
@@ -128,6 +132,7 @@ class _SignInButton extends StatelessWidget {
               fontSize: 18,
               decoration: TextDecoration.underline,
               decorationThickness: 1,
+              decorationColor: AppColors.kPrimaryColor,
             ),
       ),
     );
@@ -144,12 +149,25 @@ class _NameInput extends StatelessWidget {
           key: const Key('signUpForm_nameInput_textField'),
           onChanged: (name) => context.read<SignUpCubit>().nameChanged(name),
           keyboardType: TextInputType.name,
+          style: const TextStyle(
+            color: Colors.white, // Change this to your desired text color
+          ),
           decoration: InputDecoration(
             hintText: 'Name',
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kTextFieldColor,
+                  color: Colors.white,
                 ),
             helperText: '',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                      Colors.white), // Change this to your desired border color
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .white), // Change this to your desired border color when focused
+            ),
             errorText: state.name.displayError != null ? 'Invalid name' : null,
           ),
         );
@@ -168,12 +186,25 @@ class _EmailInput extends StatelessWidget {
           key: const Key('signUpForm_emailInput_textField'),
           onChanged: (email) => context.read<SignUpCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(
+            color: Colors.white, // Change this to your desired text color
+          ),
           decoration: InputDecoration(
             hintText: 'Email',
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kTextFieldColor,
+                  color: AppColors.kWhiteColor,
                 ),
             helperText: '',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                      Colors.white), // Change this to your desired border color
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .white), // Change this to your desired border color when focused
+            ),
             errorText:
                 state.email.displayError != null ? 'Invalid email' : null,
           ),
@@ -204,17 +235,31 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (password) =>
               context.read<SignUpCubit>().passwordChanged(password),
           obscureText: obscurePassword,
+          style: const TextStyle(
+            color: Colors.white, // Change this to your desired text color
+          ),
           decoration: InputDecoration(
             hintText: 'Password',
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kTextFieldColor,
+                  color: AppColors.kWhiteColor,
                 ),
             helperText: '',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                      Colors.white), // Change this to your desired border color
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .white), // Change this to your desired border color when focused
+            ),
             errorText:
                 state.password.displayError != null ? 'Invalid password' : null,
             suffixIcon: IconButton(
               icon: Icon(iconPassword),
               onPressed: togglePasswordVisibility,
+              color: Colors.white,
             ),
           ),
         );
@@ -247,18 +292,32 @@ class _ConfirmPasswordInput extends StatelessWidget {
               .read<SignUpCubit>()
               .confirmedPasswordChanged(confirmPassword),
           obscureText: obscurePassword,
+          style: const TextStyle(
+            color: Colors.white, // Change this to your desired text color
+          ),
           decoration: InputDecoration(
             hintText: 'Confirm password',
             hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kTextFieldColor,
+                  color: AppColors.kWhiteColor,
                 ),
             helperText: '',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                      Colors.white), // Change this to your desired border color
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .white), // Change this to your desired border color when focused
+            ),
             errorText: state.confirmedPassword.displayError != null
                 ? 'Passwords do not match'
                 : null,
             suffixIcon: IconButton(
               icon: Icon(iconPassword),
               onPressed: togglePasswordVisibility,
+              color: Colors.white,
             ),
           ),
         );
@@ -290,10 +349,6 @@ class _SignUpButton extends StatelessWidget {
                     key: const Key('signUpForm_signUp_textButton'),
                     style: TextButton.styleFrom(
                       backgroundColor: AppColors.kPrimaryColor,
-                      // padding: EdgeInsets.symmetric(
-                      //   vertical: 10,
-                      //   horizontal: 20,
-                      // ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -309,7 +364,7 @@ class _SignUpButton extends StatelessWidget {
                     child: Text(
                       'Sign Up',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: AppColors.kWhiteColor,
+                            color: AppColors.kLightGreyColor,
                             fontSize: 18,
                           ),
                     ),
