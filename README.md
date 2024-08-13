@@ -2,7 +2,12 @@
 BedTime is an app written in Flutter and backed by Firebase. It was developed for the 2024 Gemini API Developer Competition. BedTime uses Gemini's generative capabilities to create bedtime stories from a text that the user can input.
 
 # Usage
-BedTime works on wWeb and Android. To run on Android, simply start your emulator, select the device and run the app on release mode.
+BedTime works on Web and Android. Before running, create a `.env` file and add your Google AI Studio key there (BedTime is configured to use the Gemini 1.5 Flash MODEL):
+```
+API_KEY=<your_key>
+```
+
+To run on Android, simply start your emulator, select the device and run the app on release mode.
 ```
 flutter run --release
 ```
